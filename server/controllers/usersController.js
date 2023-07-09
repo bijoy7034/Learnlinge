@@ -46,6 +46,10 @@ const login = async(req,res)=>{
   }
 }
 
+const fetchAllUser = async(req,res)=>{
+  
+}
+
 module.exports= {
     createAccount,
     login

@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_signin_button: ^2.0.0
+  flutter_native_splash: ^1.2.0
 
 
 
@@ -90,3 +91,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  color: "#5865f221"       # The background color of the splash screen
+  image: Assets/undraw_education_f8ru.png # The path to your splash screen image

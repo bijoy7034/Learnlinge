@@ -46,11 +46,28 @@ const login = async(req,res)=>{
   }
 }
 
-const fetchAllUser = async(req,res)=>{
-  
+const fetchUser = async(req,res)=>{
+  try{
+    const token = req.headers.authorization.split(" ")[1];
+    if(!token){
+        return res.status(401).json({mssg : "Not authenticated"})
+    }
+    jwt.verify(token, 'secret_key', async(err, user)=>{
+        if (err) return res.status(403).json({mssg :"Token not valid"});
+        req.user = user;
+
+       const userInfo = await userModel.findOne({_id : user.id})
+       if(!userInfo) return res.status(400).json({mssg:"Not Found"})
+
+       res.status(200).json(userInfo)
+    })
+}catch(err){
+    res.status(400).json({error : err.messaage})
+}
 }
 
 module.exports= {
     createAccount,
-    login
+    login,
+    fetchUser
 }

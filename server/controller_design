@@ -1,0 +1,59 @@
+1. **User Controllers:**
+   - User registration
+   - User login
+   - User profile retrieval
+   - User profile update
+
+2. **Study Group Controllers:**
+   - Create a study group
+   - Get study group details
+   - Update study group information
+   - Join a study group
+   - Leave a study group
+   - List study groups based on subjects or preferences
+
+3. **Communication Controllers:**
+   - Send a message in a study group chat
+   - Initiate a voice call within a study group
+   - Start a video conference within a study group
+
+4. **Collaboration Controllers:**
+   - Save and retrieve drawings on the interactive whiteboard
+   - Upload and share study materials and documents
+
+5. **Task Management Controllers:**
+   - Create a task within a study group
+   - Update task details and status
+   - Assign tasks to group members
+   - Track task progress
+
+6. **Scheduling Controllers:**
+   - Set study hours and availability
+   - Schedule virtual study sessions
+   - Notify users about upcoming study sessions
+
+7. **Notification Controllers:**
+   - Send notifications and reminders for group activities, study sessions, and task deadlines
+
+8. **Discussion Forum Controllers:**
+   - Create and retrieve discussion threads
+   - Post and reply to discussions
+
+9. **Study Material Recommendation Controllers:**
+   - Provide personalized study material suggestions based on user preferences and subjects of interest
+
+10. **Peer-to-Peer Tutoring Controllers:**
+   - Offer or seek peer tutoring services within the app
+
+11. **Virtual Study Room Controllers:**
+   - Allow users to join and interact in simulated study environments
+
+12. **Study Session Recording Controllers:**
+   - Record study sessions for later review or sharing
+
+13. **Progress Tracking and Analytics Controllers:**
+   - Track user progress and generate study group analytics
+
+14. **Privacy and Security Controllers:**
+   - Implement robust privacy and security measures to protect user data
+

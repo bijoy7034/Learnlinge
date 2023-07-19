@@ -24,7 +24,7 @@ class _ChatGroupState extends State<ChatGroup> {
       drawer: Drawer(
         backgroundColor: Colors.grey[900],
       ),
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.white, // Set the color of the drawer icon
@@ -40,14 +40,24 @@ class _ChatGroupState extends State<ChatGroup> {
                 Icons.logout,
               ))
         ],
-        backgroundColor: Colors.grey[900],
-        title: Text(
-          "LernLinge",
-          style: TextStyle(
-              color: Color.fromRGBO(88, 101, 242, 0.9),
-              fontSize: 30,
-              fontFamily: 'Quicksand',
-              fontWeight: FontWeight.bold),
+        backgroundColor: Colors.black,
+        title: ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+              colors: [Colors.blue, Color.fromRGBO(88, 101, 242, 0.9)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ).createShader(bounds);
+          },
+          child:Text(
+            "LernLinge",
+            style: TextStyle(
+                color: Color.fromRGBO(88, 101, 242, 0.9),
+                fontSize: 30,
+                fontFamily: 'Quicksand',
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -66,7 +76,7 @@ class _ChatGroupState extends State<ChatGroup> {
                       width: 200,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: Colors.grey[850],
+                        color: Colors.grey[900],
                         borderRadius:
                             BorderRadius.circular(18.0), // Set the border radius value
                       ),
@@ -81,7 +91,7 @@ class _ChatGroupState extends State<ChatGroup> {
                               CircleAvatar(
                                 radius: 70,
                                 child: Icon(Icons.groups, color: Color.fromRGBO(88, 101, 242, 0.9),),
-                                backgroundColor: Colors.grey[900],
+                                backgroundColor: Colors.black87,
                               ),
                               Positioned(
                                 bottom: 0,

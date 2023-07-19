@@ -21,12 +21,12 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black87,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.black87,
         iconSize: 30,
         unselectedItemColor: Colors.white,
         selectedItemColor: Color.fromRGBO(88, 101, 242, 0.9),

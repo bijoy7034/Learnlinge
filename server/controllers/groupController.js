@@ -62,7 +62,6 @@ const getAll = async (req, res)=>{
         if(!token){
             return res.status(401).json({mssg : "Not authenticated"})
         }
-
         jwt.verify(token, 'secret_key', async(err, user)=>{
             if (err) return res.status(403).json({mssg :"Token not valid"});
             req.user = user;
@@ -196,6 +195,35 @@ const leaveStudyGroup = async(req,res)=>{
     }
 }
 
+//get study joined by user
+
+const getUserStudyGroup = async(req,res)=>{
+    try{
+        const token = req.headers.authorization.split(" ")[1];
+        if(!token){
+            return res.status(401).json({mssg : "Not authenticated"})
+        }
+
+        jwt.verify(token, 'secret_key', async(err, user)=>{
+            if (err) return res.status(403).json({mssg :"Token not valid"});
+            req.user = user;
+            
+            const studyGroups = await userModel.findById(req.user.id)
+            if(!studyGroups) return res.status(401).json({mssg : "Not Found"})
+
+            const groupIds = studyGroups.studyGroups
+
+            const groups = await studyGroupSchema.find({
+                _id: { $in: groupIds },
+              });
+
+            res.status(200).json(groups)
+        })
+    }catch(err){
+        res.status(400).json({error : err.messaage})
+    }
+}
+
 
 
 module.exports = {
@@ -205,5 +233,6 @@ module.exports = {
     getStudyGroup,
     updateGroup,
     joinGroup,
-    leaveStudyGroup
+    leaveStudyGroup,
+    getUserStudyGroup
 }

@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:learnlinge/Authentication/login.dart';
-
+import 'package:http/http.dart' as http;
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
 
@@ -9,6 +11,13 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  String err_msg = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +37,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           fontSize: 50, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
                       SizedBox(height: 30,),
                       TextFormField(
+                        controller: _nameController,
                         style: const TextStyle(
                           color: Colors.white, // Set the desired text color
                         ),
@@ -53,6 +63,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
+                        controller: _usernameController,
                         style: const TextStyle(
                           color: Colors.white, // Set the desired text color
                         ),
@@ -92,6 +103,7 @@ class _CreateAccountState extends State<CreateAccount> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
+                        controller: _passwordController,
                         obscureText: true,
                         style: const TextStyle(
                           color: Colors.white, // Set the desired text color
@@ -118,7 +130,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(88, 101, 242, 0.9))
                           ),
-                          onPressed: () {  },
+                          onPressed: authenticateUser,
                           child: Padding(
                             padding: const EdgeInsets.all(13.0),
                             child: Text("Create Account", style: TextStyle(color: Colors.white,
@@ -161,6 +173,51 @@ class _CreateAccountState extends State<CreateAccount> {
         ),
       ),
     );
-    ;
+  }
+  void authenticateUser() async {
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+    final String name = _passwordController.text;
+
+    const url = 'http://localhost:5500/api/users/create'; // Replace with your API endpoint
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+
+    final Map<String, String> body = {
+      'name':name,
+      'email': username,
+      'password': password,
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+    String jsonResponse = response.body;
+
+// Parse the JSON string into a Map object
+    Map<String, dynamic> jsonMap = jsonDecode(jsonResponse);
+
+// Extract the 'username' field from the Map
+
+    if (response.statusCode == 200) {
+      err_msg =' ';
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    } else {
+      setState(() {
+        err_msg = 'Login Error';
+      });
+    }
+
+  }
+
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

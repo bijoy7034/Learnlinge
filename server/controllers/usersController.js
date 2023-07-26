@@ -22,14 +22,14 @@ const createAccount = async(req,res)=>{
 const login = async(req,res)=>{
   try {
     const user = await userModel.findOne({ email: req.body.email });
-    if (!user) return res.status(404).json({ mssg: "User Not Found" });
+    if (!user) return res.status(402).json({ mssg: "User Not Found" });
 
     const isPasswordCorrect = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!isPasswordCorrect) {
-      return res.status(404).json({ mssg: "Wrong password" });
+      return res.status(401).json({ mssg: "Wrong password" });
     }
 
     //token

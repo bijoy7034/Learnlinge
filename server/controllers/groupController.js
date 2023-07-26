@@ -23,7 +23,18 @@ const creategroup = async (req,res)=>{
             const group = await studyGroupSchema.create({name,subject,description,creator})
             
             if (!group) return res.status(400).json({mssg : "Not created"})
-            
+
+            const groupInfo = await studyGroupSchema.findOneAndUpdate(
+                { _id: group._id },
+                { $push: { members: req.user.id } },
+                { new: true }
+            )
+            if(!groupInfo) return res.status(400).json({mssg:"Not updated"})
+            const userUpdate = await userModel.findOneAndUpdate(
+                { _id : req.user.id },
+                {$push : { studyGroups : group._id }}
+            )
+            if(!userUpdate) return res.status(400).json({mssg:"Not updated"})
             return res.status(200).json(group)
         })
     }catch(err){
@@ -224,6 +235,40 @@ const getUserStudyGroup = async(req,res)=>{
     }
 }
 
+//delete a group
+
+const deleteGroup = async (req,res)=>{
+    try{
+        const token = req.headers.authorization.split(" ")[1];
+        if(!token){
+            return res.status(401).json({mssg : "Not authenticated"})
+        }
+
+        jwt.verify(token, 'secret_key', async(err, user)=>{
+            if (err) return res.status(403).json({mssg :"Token not valid"});
+            req.user = user;
+
+            const { id } = req.params
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "No such workout" });
+              }
+
+            const group = await studyGroupSchema.deleteOne({_id : id})
+            if(!group) res.status(400).json({mssg : "not"})
+
+            const userUpdate = await userModel.findOneAndUpdate(
+                { _id : req.user.id },
+                {$pull : {studyGroups : id}}
+            )
+            
+            if(!userUpdate) res.status(400).json({mssg : "not"})
+            
+            res.status(200).json(userUpdate)
+        })
+    }catch(err){
+        res.status(400).json({error : err.messaage})
+    }
+}
 
 
 module.exports = {
@@ -234,5 +279,6 @@ module.exports = {
     updateGroup,
     joinGroup,
     leaveStudyGroup,
-    getUserStudyGroup
+    getUserStudyGroup,
+    deleteGroup
 }

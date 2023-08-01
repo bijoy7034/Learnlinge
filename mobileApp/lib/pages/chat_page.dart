@@ -48,72 +48,147 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: AppBar(
-        centerTitle: true,
         elevation: 0,
-        title: Text(widget.groupName),
+        title: InkWell(
+          onTap: () {
+            nextScreen(
+                context,
+                GroupInfo(
+                  groupId: widget.groupId,
+                  groupName: widget.groupName,
+                  adminName: admin,
+                ));
+          },
+            child: Row(
+        children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: [Colors.white70, Colors.white],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ).createShader(bounds);
+              },
+              child:Text(
+                widget.groupName,
+                style: TextStyle( fontFamily: 'Quicksand', fontSize: 20, fontWeight: FontWeight.bold ),
+                overflow: TextOverflow.clip,
+              ),
+            ),
+
+          ],
+        )
+        ],
+      ),),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          IconButton(
-              onPressed: () {
-                nextScreen(
-                    context,
-                    GroupInfo(
-                      groupId: widget.groupId,
-                      groupName: widget.groupName,
-                      adminName: admin,
-                    ));
-              },
-              icon: const Icon(Icons.info))
+          // IconButton(
+          //     onPressed: () {
+          //       nextScreen(
+          //           context,
+          //           GroupInfo(
+          //             groupId: widget.groupId,
+          //             groupName: widget.groupName,
+          //             adminName: admin,
+          //           ));
+          //     },
+          //     icon: const Icon(Icons.info)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.video_call, color: Colors.white,)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.add_ic_call_outlined, color: Colors.white,)),
         ],
       ),
-      body: Stack(
-        children: <Widget>[
-          // chat messages here
-          chatMessages(),
-          Container(
-            alignment: Alignment.bottomCenter,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-              width: MediaQuery.of(context).size.width,
-              color: Colors.grey[700],
-              child: Row(children: [
-                Expanded(
-                    child: TextFormField(
-                      controller: messageController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        hintText: "Send a message...",
-                        hintStyle: TextStyle(color: Colors.white, fontSize: 16),
-                        border: InputBorder.none,
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50.0),
+            topRight: Radius.circular(50.0),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top:18.0),
+          child: Stack(
+            children: <Widget>[
+              // chat messages here
+              chatMessages(),
+              Container(
+                alignment: Alignment.bottomCenter,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color:  Color.fromRGBO(233, 230, 244,0.9),
+                          borderRadius: BorderRadius.circular(35.0),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       offset: Offset(0, 3),
+                          //       blurRadius: 5,
+                          //       color: Colors.grey)
+                          // ],
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.face), onPressed: () {}),
+                            Expanded(
+                              child: TextField(
+                                controller: messageController,
+                                decoration: InputDecoration(
+                                    hintText: "Type Something...",
+                                    hintStyle: TextStyle(fontFamily: 'Quicksand'),
+                                    border: InputBorder.none),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.photo_camera),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.attach_file),
+                              onPressed: () {},
+                            )
+                          ],
+                        ),
                       ),
-                    )),
-                const SizedBox(
-                  width: 12,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    sendMessage();
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: const Center(
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        )),
-                  ),
-                )
-              ]),
-            ),
-          )
-        ],
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        sendMessage();
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                            )),
+                      ),
+                    )
+                  ]),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

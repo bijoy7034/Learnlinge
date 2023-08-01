@@ -45,6 +45,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: Colors.blueAccent,
       appBar: AppBar(
+        elevation: 0,
         actions: [
           IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
           IconButton(onPressed: (){}, icon: Icon(Icons.dark_mode)),

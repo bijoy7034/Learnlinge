@@ -21,8 +21,8 @@ class _MessageTileState extends State<MessageTile> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-          top: 4,
-          bottom: 4,
+          top: 2,
+          bottom: 2,
           left: widget.sentByMe ? 0 : 24,
           right: widget.sentByMe ? 24 : 0),
       alignment: widget.sentByMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -31,7 +31,9 @@ class _MessageTileState extends State<MessageTile> {
             ? const EdgeInsets.only(left: 30)
             : const EdgeInsets.only(right: 30),
         padding:
-        const EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
+        const EdgeInsets.only(top: 7, bottom: 17, left: 20, right: 5),
+        // constraints: BoxConstraints(
+        //     maxWidth: MediaQuery.of(context).size.width * .6),
         decoration: BoxDecoration(
             borderRadius: widget.sentByMe
                 ? const BorderRadius.only(
@@ -45,26 +47,33 @@ class _MessageTileState extends State<MessageTile> {
               bottomRight: Radius.circular(20),
             ),
             color: widget.sentByMe
-                ? Theme.of(context).primaryColor
-                : Colors.grey[700]),
+                ? Colors.blueAccent
+                : Color.fromRGBO(233, 230, 244,0.9)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.sender.toUpperCase(),
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: -0.5),
+            Padding(
+              padding: widget.sentByMe ? const EdgeInsets.only(right: 18.0) : const EdgeInsets.only(right: 18.0),
+              child: Text(
+                widget.sender.toUpperCase(),
+                textAlign : widget.sentByMe ? TextAlign.start :TextAlign.end,
+                style:  TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color : widget.sentByMe?  Colors.white : Colors.blueAccent,
+                    letterSpacing: -0.5),
+              ),
             ),
             const SizedBox(
-              height: 8,
+              height: 1,
             ),
-            Text(widget.message,
-                textAlign: TextAlign.start,
-                style: const TextStyle(fontSize: 16, color: Colors.white))
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text(widget.message,
+                  textAlign : widget.sentByMe ? TextAlign.end :TextAlign.start,
+                  style : widget.sentByMe ? const TextStyle(fontSize:12, color: Colors.white70, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
+                      :  TextStyle(fontSize:12, color: Colors.black87,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
+            )
           ],
         ),
       ),

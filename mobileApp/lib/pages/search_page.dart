@@ -56,14 +56,14 @@ class _SearchPageState extends State<SearchPage> {
         title: const Text(
           "Search",
           style: TextStyle(
-              fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Quicksand'),
         ),
       ),
       body: Column(
         children: [
           Container(
             color: Theme.of(context).primaryColor,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
             child: Row(
               children: [
                 Expanded(
@@ -74,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                         border: InputBorder.none,
                         hintText: "Search groups....",
                         hintStyle:
-                        TextStyle(color: Colors.white, fontSize: 16)),
+                        TextStyle(color: Colors.white70, fontSize: 16)),
                   ),
                 ),
                 GestureDetector(
@@ -167,8 +167,8 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       title:
-      Text(groupName, style: const TextStyle(fontWeight: FontWeight.w600)),
-      subtitle: Text("Admin: ${getName(admin)}"),
+      Text(groupName, style: const TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+      subtitle: Text("Admin: ${getName(admin)}", style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
       trailing: InkWell(
         onTap: () async {
           await DatabaseService(uid: user!.uid)

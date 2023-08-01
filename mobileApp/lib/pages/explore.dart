@@ -12,7 +12,7 @@ class _ExploreState extends State<Explore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.white, // Set the color of the drawer icon
         ),

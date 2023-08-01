@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learnlign/pages/Rooms.dart';
+import 'package:learnlign/pages/homePage.dart';
 
 import '../service/database_services.dart';
 import '../widgets/widgets.dart';
@@ -49,11 +50,12 @@ class _GroupInfoState extends State<GroupInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Group Info"),
+        title: const Text("Group Info", style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
         actions: [
           IconButton(
               onPressed: () {
@@ -85,7 +87,7 @@ class _GroupInfoState extends State<GroupInfo> {
                                   getName(widget.adminName),
                                   widget.groupName)
                                   .whenComplete(() {
-                                nextScreenReplace(context, const Rooms());
+                                nextScreenReplace(context, const HomePage());
                               });
                             },
                             icon: const Icon(
@@ -100,49 +102,57 @@ class _GroupInfoState extends State<GroupInfo> {
               icon: const Icon(Icons.exit_to_app))
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).primaryColor.withOpacity(0.2)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+      body: Column(
+        children: [
+          SizedBox(height: 150,
+          child:  Column(
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.green.shade200,
+                child: Text(
+                  widget.groupName.substring(0, 1).toUpperCase(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, color: Colors.white, fontSize: 29,),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      widget.groupName.substring(0, 1).toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    ),
+                  SizedBox(height: 10,),
+                  Text(
+                    "${widget.groupName}",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.white,fontFamily: 'Quicksand',),
                   ),
                   const SizedBox(
-                    width: 20,
+                    height: 5,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Group: ${widget.groupName}",
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Admin: ${getName(widget.adminName)}")
-                    ],
-                  )
+                  Text("Admin: ${getName(widget.adminName)}", style: TextStyle(color: Colors.white70),)
+                ],
+              )
+            ],
+          ),),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50.0),
+                  topRight: Radius.circular(50.0),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              child: Column(
+                children: [
+                  SizedBox(height: 10,),
+                  Text('Members', style: TextStyle(fontSize: 20, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.blueAccent),),
+                  memberList(),
                 ],
               ),
             ),
-            memberList(),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -160,23 +170,44 @@ class _GroupInfoState extends State<GroupInfo> {
                 itemBuilder: (context, index) {
                   return Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        child: Text(
-                          getName(snapshot.data['members'][index])
-                              .substring(0, 1)
-                              .toUpperCase(),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                    const EdgeInsets.symmetric( vertical: 1),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              getName(snapshot.data['members'][index])
+                                  .substring(0, 1)
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          trailing:  PopupMenuButton(
+                              icon: Icon(Icons.more_vert, color: Colors.black54,),
+                              color : Colors.white,
+                              itemBuilder: (context)=> [
+                                PopupMenuItem(
+                                    child: Text('Details',
+                                      style: TextStyle(color: Colors.black, fontFamily: 'Quicksand'),)),
+                                PopupMenuItem(
+                                    child: Text('Block',
+                                      style: TextStyle(color: Colors.black, fontFamily: 'Quicksand'),))
+                              ]),
+                          title: Text(getName(snapshot.data['members'][index]), style: TextStyle(fontFamily: 'Quicksand',fontWeight: FontWeight.bold),),
+                          // subtitle: Text(getId(snapshot.data['members'][index])),
                         ),
-                      ),
-                      title: Text(getName(snapshot.data['members'][index])),
-                      subtitle: Text(getId(snapshot.data['members'][index])),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 28.0, right: 28),
+                          child: Divider(
+                            thickness: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },

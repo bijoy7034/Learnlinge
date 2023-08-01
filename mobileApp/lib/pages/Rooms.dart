@@ -69,19 +69,26 @@ class _RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
       appBar: _isSearching ? _buildDefaultAppBar() :_buildSearchAppBar() ,
 
       drawer: Drawer(
         backgroundColor: Colors.grey[900],
       ),
 
-
-
-
-      //body
-
-
-      body:grouplist(),
+      body:Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50.0),
+            topRight: Radius.circular(50.0),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(top: 20),
+          child: grouplist(),
+        )
+      ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             popUpDialog(context);
@@ -197,177 +204,184 @@ class _RoomsState extends State<Rooms> {
   popUpDialog(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder( // Set the shape for rounded corners
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30.0), // Customize the radius as needed
+          ),
+        ),
         isDismissible: true,
         builder: (context) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 8,
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              height: 400,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        // Close the popup when the close icon is pressed
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+                Text('Add Room', style: TextStyle(color: Colors.blueAccent, fontFamily: "Quicksand", fontWeight: FontWeight.bold, fontSize: 20),),
+                _isLoading == true
+                    ? Center(
+                  child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor),
+                )
+                    : Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextField(
+                  onChanged: (val) {
+                      setState(() {
+                        groupName = val;
+                      });
+                  },
+                  style: const TextStyle(color: Colors.black),
+                  decoration: InputDecoration(filled: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
+                        fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Name",
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70),
+                          borderRadius: BorderRadius.circular(10.0), // Set the same border radius here
+                        ), focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                        ), border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Colors.orange),
+                        ), labelStyle: TextStyle(color: Colors.grey.shade700,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                ),
+                    ),
+                const SizedBox(height: 3,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          // Close the popup when the close icon is pressed
-                          Navigator.of(context).pop();
-                        },
-                      ),
+                      const Text('Description', style: TextStyle(color: Colors.black54),),
                     ],
                   ),
-                  Text('Add Room', style: TextStyle(color: Colors.blueAccent, fontFamily: "Quicksand", fontWeight: FontWeight.bold, fontSize: 20),),
-                  _isLoading == true
-                      ? Center(
-                    child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor),
-                  )
-                      : Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: TextField(
+                ),
+                const SizedBox(height: 2,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+                  child: TextFormField(
                     onChanged: (val) {
-                        setState(() {
-                          groupName = val;
-                        });
+                      setState(() {
+                        desc = val;
+                      });
                     },
-                    style: const TextStyle(color: Colors.black),
+                    maxLines: 4,
+                    style: const TextStyle(
+                      color: Colors.black, // Set the desired text color
+                    ),
                     decoration: InputDecoration(filled: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                          fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Name",
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white70),
-                            borderRadius: BorderRadius.circular(10.0), // Set the same border radius here
-                          ), focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
-                          ), border:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.orange),
-                          ), labelStyle: TextStyle(color: Colors.grey.shade700,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
+                        fillColor: Color.fromRGBO(233, 230, 244,0.9),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white70),
+                          borderRadius: BorderRadius.circular(10.0), // Set the same border radius here
+                        ), focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                        ), border:  OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide: BorderSide(color: Colors.orange),
+                        ), labelStyle: TextStyle(color: Colors.grey.shade700,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a vale';
+                      }
+                      return null;
+                    },
                   ),
+                ),
+                Text('*You can provide a description about your room', style: TextStyle(color: Colors.black54),),
+                SizedBox(height: 30,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //       primary: Theme.of(context).primaryColor),
+                    //   child: const Text("CANCEL"),
+                    // ),
+                      SizedBox(
+                        width: 300,
+                        child: Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (groupName != "") {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                DatabaseService(
+                                    uid: FirebaseAuth.instance.currentUser!.uid)
+                                    .createGroup(userName,
+                                    FirebaseAuth.instance.currentUser!.uid, groupName,desc)
+                                    .whenComplete(() {
+                                  _isLoading = false;
+                                });
+                                Navigator.of(context).pop();
+                                showSnackbar(
+                                    context, Colors.green, "Group created successfully.");
+                              }
+                            },
+
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                                shape: RoundedRectangleBorder( // Set the shape for rounded corners
+                                  borderRadius: BorderRadius.circular(20.0), // Customize the radius as needed
+                                ),
+                                primary: Theme.of(context).primaryColor),
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: const Text("CREATE"),
+                            ),
+                          ),
+                        ),
                       ),
-                  const SizedBox(height: 3,),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Description', style: TextStyle(color: Colors.black54),),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 2,),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-                    child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          desc = val;
-                        });
-                      },
-                      maxLines: 4,
-                      style: const TextStyle(
-                        color: Colors.black, // Set the desired text color
-                      ),
-                      decoration: InputDecoration(filled: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                          fillColor: Color.fromRGBO(233, 230, 244,0.9),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white70),
-                            borderRadius: BorderRadius.circular(10.0), // Set the same border radius here
-                          ), focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
-                          ), border:  OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(color: Colors.orange),
-                          ), labelStyle: TextStyle(color: Colors.grey.shade700,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a vale';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Text('*You can provide a description about your room', style: TextStyle(color: Colors.black54),),
-                  SizedBox(height: 10,),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     Navigator.of(context).pop();
-                      //   },
-                      //   style: ElevatedButton.styleFrom(
-                      //       primary: Theme.of(context).primaryColor),
-                      //   child: const Text("CANCEL"),
-                      // ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (groupName != "") {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            DatabaseService(
-                                uid: FirebaseAuth.instance.currentUser!.uid)
-                                .createGroup(userName,
-                                FirebaseAuth.instance.currentUser!.uid, groupName,desc)
-                                .whenComplete(() {
-                              _isLoading = false;
-                            });
-                            Navigator.of(context).pop();
-                            showSnackbar(
-                                context, Colors.green, "Group created successfully.");
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor),
-                        child: const Text("CREATE"),
-                      )
-                    ],
-                  )
-                ],
-              ),
+
+                  ],
+                ),
+                SizedBox(height: 50,)
+              ],
             );
         });
   }
   noGroupWidget() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () {
-              popUpDialog(context);
+          Container(
+              width: 300,
+              child: Image.asset('Assets/undraw_add_friends_re_3xte.png')),
+          ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: [Colors.blue, Color.fromRGBO(88, 101, 242, 0.9)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ).createShader(bounds);
             },
-            child: Icon(
-              Icons.add_circle,
-              color: Colors.grey[700],
-              size: 75,
+            child: DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 15.0,
+                ),
+                child: Text('No chat rooms')
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            "You've not joined any groups, tap on the add icon to create a group or also search from top search button.",
-            textAlign: TextAlign.center,
-          )
+          SizedBox(height: 100,)
         ],
       ),
     );

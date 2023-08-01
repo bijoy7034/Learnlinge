@@ -5,7 +5,8 @@ const userRouter = require("./routes/userRoutes")
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const groupRoutes = require("./routes/groupRoutes");
-
+const {createServer, Server} = require('http')
+const {server, Socket} = require('socket.io')
 dotenv.config()
 const app = express()
 
@@ -23,6 +24,16 @@ app.use((req, res, next) => {
 //Routes
 app.use('/api/users', userRouter)
 app.use('/api/groups', groupRoutes)
+
+
+const httpServer = createServer(app)
+const io = new Server(httpServer)
+
+io.on('connection', (socket)=>{
+    console.log('kjwbckwbjdklknjcwojvownjln')
+})
+
+
 
 //server
 mongoose.connect(mongo_url)

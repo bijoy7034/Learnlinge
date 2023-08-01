@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "380202725618",
+    "project_id": "learnlinge",
+    "storage_bucket": "learnlinge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380202725618:android:02cec476fda6ca29f1606b",
+        "android_client_info": {
+          "package_name": "com.example.learnlign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "380202725618-ut1kktiff4hljlputqaekj63ch1rvoae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDStwipio5wlxNo03dtCpsw_tVNNaC0qQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "380202725618-ut1kktiff4hljlputqaekj63ch1rvoae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

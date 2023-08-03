@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 
 import '../helper/helper_fuction.dart';
@@ -63,16 +64,24 @@ class _ProfileState extends State<Profile> {
               end: Alignment.centerRight,
             ).createShader(bounds);
           },
-          child:Text(
-            'LearnLinge',
-            style: TextStyle(color:Color.fromRGBO(88, 101, 242, 0.9), fontFamily: 'Quicksand', fontSize: 30, fontWeight: FontWeight.bold ),
-            overflow: TextOverflow.clip,
+          child:Row(
+            children: [
+              SizedBox(width: 20,),
+              Text(
+                  'Profile',
+                style: TextStyle(color:Color.fromRGBO(88, 101, 242, 0.9), fontFamily: 'Quicksand', fontSize: 30, fontWeight: FontWeight.bold ),
+                overflow: TextOverflow.clip,
+              ),
+            ],
           ),
         ),
       ),
 
       body: _isLoading ? Center(
-        child: CircularProgressIndicator(),
+        child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+          color: Colors.amber,  // Set the color of the spinner
+          size: 50.0,          // Set the size of the spinner
+        ),
       )
           : SingleChildScrollView(
         child: Column(
@@ -106,7 +115,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade700,
+                            color: Colors.grey.shade800,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -130,7 +139,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade700,
+                            color: Colors.grey.shade800,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -153,7 +162,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           decoration: BoxDecoration(
 
-                            color: Colors.grey.shade700,
+                            color: Colors.grey.shade800,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -172,7 +181,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade700,
+                            color: Colors.grey.shade800,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),

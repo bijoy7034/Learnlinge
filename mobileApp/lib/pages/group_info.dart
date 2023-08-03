@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:learnlign/pages/Rooms.dart';
 import 'package:learnlign/pages/homePage.dart';
 
@@ -231,9 +232,10 @@ class _GroupInfoState extends State<GroupInfo> {
           }
         } else {
           return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ));
+              child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+                color: Colors.amber,  // Set the color of the spinner
+                size: 50.0,          // Set the size of the spinner
+              ),);
         }
       },
     );

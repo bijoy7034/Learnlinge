@@ -47,21 +47,24 @@ class _MessageTileState extends State<MessageTile> {
               bottomRight: Radius.circular(20),
             ),
             color: widget.sentByMe
-                ? Colors.amber.shade400
-                : Colors.white70),
+                ? Colors.amber.shade300
+                : Colors.grey.shade800),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: widget.sentByMe?  CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: widget.sentByMe ? const EdgeInsets.only(right: 18.0) : const EdgeInsets.only(right: 18.0),
-              child: Text(
-                widget.sender.toUpperCase(),
-                textAlign : widget.sentByMe ? TextAlign.start :TextAlign.end,
-                style:  TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color : widget.sentByMe?  Colors.white : Colors.amber,
-                    letterSpacing: -0.5),
+              padding: widget.sentByMe ? const EdgeInsets.only(right: 8.0) : const EdgeInsets.only(right: 18.0),
+              child: Expanded(
+                child: Text(
+                  widget.sender.toUpperCase(),
+                  textAlign : widget.sentByMe ? TextAlign.start :TextAlign.start,
+                  style:  TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Quicksand',
+                      color : widget.sentByMe?  Colors.grey.shade800 : Colors.amber,
+                      letterSpacing: -0.5),
+                ),
               ),
             ),
             const SizedBox(
@@ -70,9 +73,9 @@ class _MessageTileState extends State<MessageTile> {
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(widget.message,
-                  textAlign : widget.sentByMe ? TextAlign.end :TextAlign.start,
-                  style : widget.sentByMe ? const TextStyle(fontSize:15, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
-                      :  TextStyle(fontSize:12, color: Colors.black87,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
+                  textAlign : widget.sentByMe ? TextAlign.justify :TextAlign.justify,
+                  style : widget.sentByMe ? const TextStyle(fontSize:15, color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
+                      :  TextStyle(fontSize:15, color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
             )
           ],
         ),

@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/auth/Register.dart';
 import 'package:learnlign/pages/homePage.dart';
 import 'package:learnlign/service/auth_services.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../helper/helper_fuction.dart';
 import '../../service/database_services.dart';
 class Login extends StatefulWidget {
@@ -30,8 +30,10 @@ class _LoginState extends State<Login> {
       backgroundColor: Colors.black,
       body:_isLoading
           ? Center(
-        child: CircularProgressIndicator(
-            color: Colors.amber),
+        child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+          color: Colors.amber,  // Set the color of the spinner
+          size: 100.0,          // Set the size of the spinner
+        ),
       )
           :
       Container(

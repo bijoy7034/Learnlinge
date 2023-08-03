@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/homePage.dart';
@@ -28,8 +29,10 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.amber.shade300,
       body:_isLoading
           ? Center(
-          child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor))
+          child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+            color: Colors.amber,  // Set the color of the spinner
+            size: 100.0,          // Set the size of the spinner
+          ),)
           : Container(
         decoration: BoxDecoration(
           color: Colors.black),
@@ -75,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           TextFormField(
                             controller: _nameController,
                             style: const TextStyle(
-                              color: Colors.black54, // Set the desired text color
+                              color: Colors.white, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
                                 prefixIcon: Icon(Icons.person),
@@ -112,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           TextFormField(
                             controller: _usernameController,
                             style: const TextStyle(
-                              color: Colors.black54, // Set the desired text color
+                                color: Colors.white,//ext color
                             ),
                             decoration: InputDecoration(filled: true,
                                 prefixIcon: Icon(Icons.mail),
@@ -149,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           SizedBox(height: 20,),
                           TextFormField(
                             style: const TextStyle(
-                              color: Colors.black54, // Set the desired text color
+                              color: Colors.white, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
                                 prefixIcon: Icon(Icons.key),
@@ -181,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             controller: _passwordController,
                             obscureText: true,
                             style: const TextStyle(
-                              color: Colors.black54, // Set the desired text color
+                                color: Colors.white, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
                                 prefixIcon: Icon(Icons.password_outlined),

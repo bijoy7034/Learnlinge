@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../service/database_services.dart';
 import '../widgets/message_tile.dart';
@@ -140,7 +141,10 @@ class _ChatPageState extends State<ChatPage> {
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: CircularProgressIndicator( color: Colors.amber,),
+                      child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+                        color: Colors.amber,  // Set the color of the spinner
+                        size: 50.0,          // Set the size of the spinner
+                      ),
                     );
                   }
 

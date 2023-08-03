@@ -1,8 +1,8 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import '../helper/helper_fuction.dart';
 import '../service/database_services.dart';
 import '../widgets/widgets.dart';
@@ -54,10 +54,10 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.black,
-        title: const Text(
+        title:  Text(
           "Search",
           style: TextStyle(
-              fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Quicksand'),
+              fontSize: 27, fontWeight: FontWeight.bold, color: Colors.amber.shade300, fontFamily: 'Quicksand'),
         ),
       ),
       body: Column(
@@ -86,7 +86,7 @@ class _SearchPageState extends State<SearchPage> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.amber.shade300,
                         borderRadius: BorderRadius.circular(40)),
                     child: const Icon(
                       Icons.search,
@@ -99,8 +99,10 @@ class _SearchPageState extends State<SearchPage> {
           ),
           isLoading
               ? Center(
-            child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor),
+            child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
+              color: Colors.amber,  // Set the color of the spinner
+              size: 50.0,          // Set the size of the spinner
+            ),
           )
               : Container(
             child: groupList(),
@@ -143,7 +145,22 @@ class _SearchPageState extends State<SearchPage> {
       },
     ),
         )
-        : Container();
+        : Column(
+          children: [
+            SizedBox(height: 200,),
+            Center(
+              child: SvgPicture.asset(
+                'Assets/undraw_book_lover_re_rwjy.svg',
+                semanticsLabel: 'My SVG Image',
+                width: 200,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text('Type room name in the search bar on the search screen to discover a wide range of results', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand'), textAlign: TextAlign.center,),
+            )
+          ],
+        );
   }
 
   joinedOrNot(

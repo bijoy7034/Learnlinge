@@ -22,16 +22,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0.3,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey.shade900,
         iconSize: 30,
-        unselectedItemColor: Colors.black54,
-        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.amber.shade300,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.groups,),

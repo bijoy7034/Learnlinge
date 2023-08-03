@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/homePage.dart';
 import '../../service/auth_services.dart';
@@ -24,30 +25,32 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.amber.shade300,
       body:_isLoading
           ? Center(
           child: CircularProgressIndicator(
               color: Theme.of(context).primaryColor))
           : Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.blueAccent], // Replace with your desired colors
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),),
+          color: Colors.black),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 300,
+              SizedBox(height: 350,
                 child: Center(
                   child: Container(
                       width: 200,
-                      child: Image.asset('Assets/—Pngtree—pile of books 3d icon_7457105.png')),
+                      child: SvgPicture.asset(
+                        'Assets/undraw_authentication_re_svpt.svg',
+                        semanticsLabel: 'My SVG Image',
+                        width: 400,
+                      ),
+                  ),
                 ),),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.grey.shade900,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(70.0),
                     topRight: Radius.circular(70.0),
@@ -60,23 +63,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       key: formKey,
                       child: Column(
                         children: [
-                          ShaderMask(
-                            blendMode: BlendMode.srcIn,
-                            shaderCallback: (Rect bounds) {
-                              return LinearGradient(
-                                colors: [Colors.blueAccent, Colors.blueAccent],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ).createShader(bounds);
-                            },
-                            child:Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(88, 101, 242, 0.9),
-                                  fontSize: 30,
-                                  fontFamily: 'Quicksand',
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Colors.amber.shade300,
+                                fontSize: 30,
+                                fontFamily: 'Quicksand',
+                                fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 30,),
                           TextFormField(
@@ -85,18 +78,22 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.black54, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
+                                prefixIcon: Icon(Icons.person),
+                                prefixIconColor: Colors.white70,
+
                                 contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Name",
+                                fillColor: Colors.grey.shade800, labelText: "Name",
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: BorderSide(color: Colors.grey.shade800),
                                   borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                 ), focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                  borderSide: BorderSide(color: Colors.amber),
                                 ), border:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(color: Colors.orange),
-                                ), labelStyle: TextStyle(color: Colors.grey.shade700, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                ), labelStyle: TextStyle(color: Colors.white70,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+
 
                             onChanged: (val) {
                               setState(() {
@@ -118,18 +115,21 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.black54, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
+                                prefixIcon: Icon(Icons.mail),
+                                prefixIconColor: Colors.white70,
+
                                 contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Email",
+                                fillColor: Colors.grey.shade800, labelText: "Email",
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: BorderSide(color: Colors.grey.shade800),
                                   borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                 ), focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                  borderSide: BorderSide(color: Colors.amber),
                                 ), border:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(color: Colors.orange),
-                                ), labelStyle: TextStyle(color: Colors.grey.shade700, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                ), labelStyle: TextStyle(color: Colors.white70,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
 
                             onChanged: (val) {
                               setState(() {
@@ -148,23 +148,26 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
-                            obscureText: true,
                             style: const TextStyle(
                               color: Colors.black54, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
+                                prefixIcon: Icon(Icons.key),
+                                prefixIconColor: Colors.white70,
+
                                 contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Password",
+                                fillColor: Colors.grey.shade800, labelText: "Pasword",
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: BorderSide(color: Colors.grey.shade800),
                                   borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                 ), focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                  borderSide: BorderSide(color: Colors.amber),
                                 ), border:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(color: Colors.orange),
-                                ), labelStyle: TextStyle(color: Colors.grey.shade700, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                ), labelStyle: TextStyle(color: Colors.white70,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+
                             validator: (val) {
                               if (val!.length < 6) {
                                 return "Password must be at least 6 characters";
@@ -181,18 +184,22 @@ class _RegisterPageState extends State<RegisterPage> {
                               color: Colors.black54, // Set the desired text color
                             ),
                             decoration: InputDecoration(filled: true,
+                                prefixIcon: Icon(Icons.password_outlined),
+                                prefixIconColor: Colors.white70,
+
                                 contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Re-enter password",
+                                fillColor: Colors.grey.shade800, labelText: "Re-enter password",
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white70),
+                                  borderSide: BorderSide(color: Colors.grey.shade800),
                                   borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                 ), focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                  borderSide: BorderSide(color: Colors.amber),
                                 ), border:  OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
                                   borderSide: BorderSide(color: Colors.orange),
-                                ), labelStyle: TextStyle(color: Colors.grey.shade700, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                ), labelStyle: TextStyle(color: Colors.white70,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+
                             validator: (val) {
                               if (val!.length < 6) {
                                 return "Password must be at least 6 characters";
@@ -216,7 +223,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 height: 50, // Set the desired height of the button
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [Colors.blue, Color.fromRGBO(88, 101, 242, 0.9)], // Replace with your desired gradient colors
+                                    colors: [Colors.amber, Colors.amber.shade300], // Replace with your desired gradient colors
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
@@ -237,21 +244,21 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ) ,
                           SizedBox(height: 30,),
-                          Text('Or', style: TextStyle(color: Colors.black54),),
+                          Text('Or', style: TextStyle(color: Colors.white70),),
                           SizedBox(height: 30,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Already a user? ', style: TextStyle(color: Colors.black54 ,
+                              Text('Already a user? ', style: TextStyle(color: Colors.white70 ,
                                   fontSize: 14),),
                               InkWell(
                                 onTap:(){
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => Login()));
                                 },
                                 child: Text('Login',
-                                  style: TextStyle(color:Colors.blueAccent,
+                                  style: TextStyle(color:Colors.amber.shade300,
                                       fontSize: 15  ),),
                               )
                             ],

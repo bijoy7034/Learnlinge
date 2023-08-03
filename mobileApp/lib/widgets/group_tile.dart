@@ -22,9 +22,7 @@ class GroupTile extends StatefulWidget {
 
 class _GroupTileState extends State<GroupTile> {
   final List<Color> iconColors = [
-    Color.fromRGBO(255,197,196,1),
-    Color.fromRGBO(203,171,254,1),
-    Colors.green.shade200
+    Colors.amber.shade400,
     // Add more colors as needed.
   ];
 
@@ -51,7 +49,7 @@ class _GroupTileState extends State<GroupTile> {
           children: [
             ListTile(
               trailing: IconButton(
-                icon: Icon(Icons.more_vert),
+                icon: Icon(Icons.more_vert, color: Colors.white,),
                 onPressed: (){},
               ),
               leading: CircleAvatar(
@@ -61,23 +59,18 @@ class _GroupTileState extends State<GroupTile> {
                   widget.groupName.substring(0, 1).toUpperCase(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold , fontFamily: 'Quicksand'),
+                      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
               title: Text(
                 widget.groupName,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand'),
+                style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'Quicksand'),
               ),
               subtitle: Text(
                 "Join the conversation as ${widget.userName}",
-                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 13, fontFamily: 'Quicksand'),
+                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 13, color: Colors.white70, fontFamily: 'Quicksand'),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(left: 28.0, right: 28),
-                child: Divider(
-                  thickness: 0.5,
-                ))
 
           ],
         ),

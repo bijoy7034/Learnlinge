@@ -10,18 +10,20 @@ class ChatPage extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String userName;
-  const ChatPage(
-      {Key? key,
-        required this.groupId,
-        required this.groupName,
-        required this.userName})
-      : super(key: key);
+
+  const ChatPage({
+    Key? key,
+    required this.groupId,
+    required this.groupName,
+    required this.userName,
+  }) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
+  ScrollController _scrollController = ScrollController();
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   String admin = "";
@@ -30,6 +32,12 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     getChatandAdmin();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   getChatandAdmin() {
@@ -48,46 +56,51 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         title: InkWell(
           onTap: () {
             nextScreen(
-                context,
-                GroupInfo(
-                  groupId: widget.groupId,
-                  groupName: widget.groupName,
-                  adminName: admin,
-                ));
-          },
-            child: Row(
-        children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            ShaderMask(
-              blendMode: BlendMode.srcIn,
-              shaderCallback: (Rect bounds) {
-                return LinearGradient(
-                  colors: [Colors.white70, Colors.white],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(bounds);
-              },
-              child:Text(
-                widget.groupName,
-                style: TextStyle( fontFamily: 'Quicksand', fontSize: 20, fontWeight: FontWeight.bold ),
-                overflow: TextOverflow.clip,
+              context,
+              GroupInfo(
+                groupId: widget.groupId,
+                groupName: widget.groupName,
+                adminName: admin,
               ),
-            ),
-
-          ],
-        )
-        ],
-      ),),
-        backgroundColor: Theme.of(context).primaryColor,
+            );
+          },
+          child: Row(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        colors: [Colors.white70, Colors.white],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      widget.groupName,
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.clip,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        backgroundColor: Colors.black,
         actions: [
           // IconButton(
           //     onPressed: () {
@@ -100,116 +113,135 @@ class _ChatPageState extends State<ChatPage> {
           //           ));
           //     },
           //     icon: const Icon(Icons.info)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.video_call, color: Colors.white,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.add_ic_call_outlined, color: Colors.white,)),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.video_call, color: Colors.white),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add_ic_call_outlined, color: Colors.white),
+          ),
         ],
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey.shade900,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top:18.0),
+          padding: const EdgeInsets.only(top: 18.0),
           child: Stack(
             children: <Widget>[
-              // chat messages here
-              chatMessages(),
+              StreamBuilder(
+                stream: chats,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator( color: Colors.amber,),
+                    );
+                  }
+
+                  if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+                    return Center(
+                      child: Text('No messages yet.'),
+                    );
+                  }
+
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    _scrollToBottom();
+                  });
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 78.0),
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        return MessageTile(
+                          message: snapshot.data.docs[index]['message'],
+                          sender: snapshot.data.docs[index]['sender'],
+                          sentByMe:
+                          widget.userName == snapshot.data.docs[index]['sender'],
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height:10),
               Container(
                 alignment: Alignment.bottomCenter,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   width: MediaQuery.of(context).size.width,
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color:  Color.fromRGBO(233, 230, 244,0.9),
-                          borderRadius: BorderRadius.circular(35.0),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       offset: Offset(0, 3),
-                          //       blurRadius: 5,
-                          //       color: Colors.grey)
-                          // ],
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.face), onPressed: () {}),
-                            Expanded(
-                              child: TextField(
-                                controller: messageController,
-                                decoration: InputDecoration(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(35.0),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.face),
+                                onPressed: () {},
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: messageController,
+                                  decoration: InputDecoration(
                                     hintText: "Type Something...",
                                     hintStyle: TextStyle(fontFamily: 'Quicksand'),
-                                    border: InputBorder.none),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.photo_camera),
-                              onPressed: () {},
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.attach_file),
-                              onPressed: () {},
-                            )
-                          ],
+                              IconButton(
+                                icon: Icon(Icons.photo_camera),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.attach_file),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: const Center(
+                      const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: () {
+                          sendMessage();
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Center(
                             child: Icon(
                               Icons.send,
                               color: Colors.white,
-                            )),
-                      ),
-                    )
-                  ]),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  chatMessages() {
-    return StreamBuilder(
-      stream: chats,
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-          itemCount: snapshot.data.docs.length,
-          itemBuilder: (context, index) {
-            return MessageTile(
-                message: snapshot.data.docs[index]['message'],
-                sender: snapshot.data.docs[index]['sender'],
-                sentByMe: widget.userName ==
-                    snapshot.data.docs[index]['sender']);
-          },
-        )
-            : Container();
-      },
     );
   }
 
@@ -226,5 +258,14 @@ class _ChatPageState extends State<ChatPage> {
         messageController.clear();
       });
     }
+  }
+
+  // Method to scroll to the bottom of the ListView
+  void _scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds:200),
+      curve: Curves.easeInOut,
+    );
   }
 }

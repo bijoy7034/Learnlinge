@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -21,31 +22,34 @@ class _ExploreState extends State<Explore> {
           IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
 
         ],
-        backgroundColor: Colors.blueAccent,
-        title: ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (Rect bounds) {
-            return const LinearGradient(
-              colors: [Colors.white70, Colors.white],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ).createShader(bounds);
-          },
-          child:Text(
-            "Explore",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontFamily: 'Quicksand',
-                fontWeight: FontWeight.bold),
+        backgroundColor: Colors.black,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 18.0),
+          child: ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (Rect bounds) {
+              return const LinearGradient(
+                colors: [Colors.white, Colors.white70],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ).createShader(bounds);
+            },
+            child:Text(
+              "Explore",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.black,
       body: Container(
         height: 800,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey.shade900,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),
@@ -103,8 +107,8 @@ class _ExploreState extends State<Explore> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Color.fromRGBO(233, 230, 244,0.9),
-                                  Color.fromRGBO(233, 230, 244,0.9),
+                                  Colors.grey.shade800,
+                                  Colors.grey.shade800,
                                 ],
                               ),
                               borderRadius:
@@ -115,9 +119,9 @@ class _ExploreState extends State<Explore> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.groups, size: 40, color: Colors.green,),
-                                  Text('Rooms', style: TextStyle(color: Colors.black54,fontFamily: 'Quicksand',
-                                      fontWeight:FontWeight.bold, fontSize: 20 ),),
+                                  Icon(Icons.groups, size: 40, color: Colors.amber,),
+                                  Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                      fontWeight:FontWeight.bold, fontSize: 23 ),),
                                   SizedBox(height: 10,)
                                 ],
                               ),
@@ -142,8 +146,8 @@ class _ExploreState extends State<Explore> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color.fromRGBO(233, 230, 244,0.9),
-                                    Color.fromRGBO(233, 230, 244,0.9),
+                                    Colors.grey.shade800,
+                                    Colors.grey.shade800,
                                   ],
                                 ),
                                 borderRadius:
@@ -154,8 +158,8 @@ class _ExploreState extends State<Explore> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.menu_book_rounded, size: 30, color: Colors.orange,),
-                                    Text('Study Materials', style: TextStyle(color: Colors.black54,fontFamily: 'Quicksand',
+                                    Icon(Icons.menu_book_rounded, size: 30, color: Colors.green,),
+                                    Text('Study Materials', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                         fontWeight:FontWeight.bold, fontSize: 13),)
                                   ],
                                 ),
@@ -170,8 +174,8 @@ class _ExploreState extends State<Explore> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color.fromRGBO(233, 230, 244,0.9),
-                                    Color.fromRGBO(233, 230, 244,0.9),
+                                    Colors.grey.shade800,
+                                    Colors.grey.shade800,
 
                                   ],
                                 ),
@@ -184,7 +188,7 @@ class _ExploreState extends State<Explore> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.stacked_bar_chart, size: 30, color: Colors.blueAccent,),
-                                    Text('Discussion Forums', style: TextStyle(color: Colors.black54,fontFamily: 'Quicksand',
+                                    Text('Discussion Forums', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                         fontWeight:FontWeight.bold, fontSize: 13),)
                                   ],
                                 ),
@@ -198,8 +202,12 @@ class _ExploreState extends State<Explore> {
                 ),
                 SizedBox(height: 55,),
                 Container(
-                    width: 600,
-                    child: Image.asset('Assets/5853.png')),
+                    width: 700,
+                    child: SvgPicture.asset(
+                      'Assets/undraw_scrum_board_re_wk7v.svg',
+                      semanticsLabel: 'My SVG Image',
+                      width: 230,
+                    ),),
 
               ],
             ),

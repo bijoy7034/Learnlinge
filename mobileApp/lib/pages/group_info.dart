@@ -50,12 +50,12 @@ class _GroupInfoState extends State<GroupInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Group Info", style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+        backgroundColor: Colors.black,
+        //title: Text("Group Info", style: TextStyle(fontFamily: 'Quicksand',color: Colors.amber.shade300, fontWeight: FontWeight.bold),),
         actions: [
           IconButton(
               onPressed: () {
@@ -64,7 +64,10 @@ class _GroupInfoState extends State<GroupInfo> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: const Text("Exit"),
+                        shape: RoundedRectangleBorder( // Set the shape for rounded corners
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        title:  Text("Exit", style: TextStyle(color: Colors.amber.shade300),),
                         content:
                         const Text("Are you sure you exit the group? "),
                         actions: [
@@ -109,7 +112,7 @@ class _GroupInfoState extends State<GroupInfo> {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: Colors.green.shade200,
+                backgroundColor: Colors.amber.shade300,
                 child: Text(
                   widget.groupName.substring(0, 1).toUpperCase(),
                   style: const TextStyle(
@@ -136,7 +139,7 @@ class _GroupInfoState extends State<GroupInfo> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey.shade900,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.0),
                   topRight: Radius.circular(50.0),
@@ -146,7 +149,7 @@ class _GroupInfoState extends State<GroupInfo> {
               child: Column(
                 children: [
                   SizedBox(height: 10,),
-                  Text('Members', style: TextStyle(fontSize: 20, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.blueAccent),),
+                  Text('Members', style: TextStyle(fontSize: 20, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.white70),),
                   memberList(),
                 ],
               ),
@@ -188,17 +191,21 @@ class _GroupInfoState extends State<GroupInfo> {
                             ),
                           ),
                           trailing:  PopupMenuButton(
-                              icon: Icon(Icons.more_vert, color: Colors.black54,),
-                              color : Colors.white,
+                              icon: Icon(Icons.more_vert, color: Colors.white,),
+                              color : Colors.grey.shade800,
                               itemBuilder: (context)=> [
                                 PopupMenuItem(
                                     child: Text('Details',
-                                      style: TextStyle(color: Colors.black, fontFamily: 'Quicksand'),)),
+                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+                                PopupMenuItem(
+                                    child: Text('Connect',
+                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+
                                 PopupMenuItem(
                                     child: Text('Block',
-                                      style: TextStyle(color: Colors.black, fontFamily: 'Quicksand'),))
+                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),))
                               ]),
-                          title: Text(getName(snapshot.data['members'][index]), style: TextStyle(fontFamily: 'Quicksand',fontWeight: FontWeight.bold),),
+                          title: Text(getName(snapshot.data['members'][index]),  style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
                           // subtitle: Text(getId(snapshot.data['members'][index])),
                         ),
                         Padding(

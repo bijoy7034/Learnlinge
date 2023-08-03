@@ -50,9 +50,10 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade900,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.black,
         title: const Text(
           "Search",
           style: TextStyle(
@@ -62,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Column(
         children: [
           Container(
-            color: Theme.of(context).primaryColor,
+            color: Colors.black,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
             child: Row(
               children: [
@@ -101,7 +102,9 @@ class _SearchPageState extends State<SearchPage> {
             child: CircularProgressIndicator(
                 color: Theme.of(context).primaryColor),
           )
-              : groupList(),
+              : Container(
+            child: groupList(),
+          ),
         ],
       ),
     );
@@ -126,18 +129,20 @@ class _SearchPageState extends State<SearchPage> {
 
   groupList() {
     return hasUserSearched
-        ? ListView.builder(
+        ? Container(
+          child: ListView.builder(
       shrinkWrap: true,
       itemCount: searchSnapshot!.docs.length,
       itemBuilder: (context, index) {
-        return groupTile(
-          userName,
-          searchSnapshot!.docs[index]['groupId'],
-          searchSnapshot!.docs[index]['groupName'],
-          searchSnapshot!.docs[index]['admin'],
-        );
+          return groupTile(
+            userName,
+            searchSnapshot!.docs[index]['groupId'],
+            searchSnapshot!.docs[index]['groupName'],
+            searchSnapshot!.docs[index]['admin'],
+          );
       },
-    )
+    ),
+        )
         : Container();
   }
 
@@ -167,8 +172,8 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       title:
-      Text(groupName, style: const TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
-      subtitle: Text("Admin: ${getName(admin)}", style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+      Text(groupName, style: const TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.white)),
+      subtitle: Text("Admin: ${getName(admin)}", style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.white70),),
       trailing: InkWell(
         onTap: () async {
           await DatabaseService(uid: user!.uid)

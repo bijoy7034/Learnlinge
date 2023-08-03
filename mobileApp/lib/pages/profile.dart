@@ -43,7 +43,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         actions: [
@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> {
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.black,
         title: ShaderMask(
           blendMode: BlendMode.srcIn,
           shaderCallback: (Rect bounds) {
@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
             Container(
               height: 900,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey.shade900,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.0),
                   topRight: Radius.circular(50.0),
@@ -100,13 +100,13 @@ class _ProfileState extends State<Profile> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(userName, style: TextStyle(color: Colors.blueAccent ,fontWeight: FontWeight.bold, fontFamily: "Quicksand", fontSize: 30),),
+                          child: Text(userName, style: TextStyle(color: Colors.amber.shade300 ,fontWeight: FontWeight.bold, fontFamily: "Quicksand", fontSize: 30),),
                         ),
-                        Text(email , style: TextStyle(color: Colors.black54,fontWeight : FontWeight.bold, fontSize: 15,fontFamily: "Quicksand"),),
+                        Text(email , style: TextStyle(color: Colors.white70,fontWeight : FontWeight.bold, fontSize: 15,fontFamily: "Quicksand"),),
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(255,197,196,0.99),
+                            color: Colors.grey.shade700,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -130,7 +130,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(255,221,183, 0.99),
+                            color: Colors.grey.shade700,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -153,7 +153,7 @@ class _ProfileState extends State<Profile> {
                         Container(
                           decoration: BoxDecoration(
 
-                            color: Color.fromRGBO(187,195,247,0.99),
+                            color: Colors.grey.shade700,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),
@@ -172,7 +172,7 @@ class _ProfileState extends State<Profile> {
                         SizedBox(height: 20,),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(203,171,254,1),
+                            color: Colors.grey.shade700,
                             borderRadius:
                             BorderRadius.circular(20.0), // Set the border radius value
                           ),

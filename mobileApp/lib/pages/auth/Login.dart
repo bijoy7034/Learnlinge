@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/auth/Register.dart';
 import 'package:learnlign/pages/homePage.dart';
 import 'package:learnlign/service/auth_services.dart';
@@ -26,17 +27,17 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color.fromRGBO(110, 158, 254, 0.9),
+      backgroundColor: Colors.black,
       body:_isLoading
           ? Center(
         child: CircularProgressIndicator(
-            color: Colors.blueAccent),
+            color: Colors.amber),
       )
           :
       Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.blueAccent], // Replace with your desired colors
+            colors: [Colors.black, Colors.black], // Replace with your desired colors
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -50,11 +51,15 @@ class _LoginState extends State<Login> {
               SizedBox(height: 340,
                 child: Center(
                   child: Container(
-                      child: Image.asset('Assets/5293-removebg.png')),
+                      child: SvgPicture.asset(
+                        'Assets/undraw_personal_info_re_ur1n.svg',
+                        semanticsLabel: 'My SVG Image',
+                        width: 300,
+                      ),),
                 ),),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.grey.shade900,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(70.0),
                     topRight: Radius.circular(70.0),
@@ -69,45 +74,35 @@ class _LoginState extends State<Login> {
                         key: formKey,
                         child: Column(
                           children: [
-                            ShaderMask(
-                              blendMode: BlendMode.srcIn,
-                              shaderCallback: (Rect bounds) {
-                                return LinearGradient(
-                                  colors: [Colors.blueAccent, Colors.blueAccent],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                ).createShader(bounds);
-                              },
-                              child:Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: Color.fromRGBO(88, 101, 242, 0.9),
-                                    fontSize: 38,
-                                    fontFamily: 'Quicksand',
-                                    fontWeight: FontWeight.w900),
-                              ),
+                            Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.amber.shade300,
+                                  fontSize: 38,
+                                  fontFamily: 'Quicksand',
+                                  fontWeight: FontWeight.w900),
                             ),
                             SizedBox(height: 30,),
                             TextFormField(
                               style: const TextStyle(
-                                color: Colors.black54, // Set the desired text color
+                                color: Colors.white, // Set the desired text color
                               ),
                               decoration: InputDecoration(filled: true,
                                   prefixIcon: Icon(Icons.mail),
-                                  prefixIconColor: Colors.grey.shade700,
+                                  prefixIconColor: Colors.white70,
 
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                  fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Email",
+                                  fillColor: Colors.grey.shade800, labelText: "Email",
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white70),
+                                    borderSide: BorderSide(color: Colors.grey.shade800),
                                     borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                   ), focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                    borderSide: BorderSide(color: Colors.amber),
                                   ), border:  OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.orange),
-                                  ), labelStyle: TextStyle(color: Colors.grey.shade700,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                  ), labelStyle: TextStyle(color: Colors.white70,  fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
                               validator: (val) {
                                 return RegExp(
                                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -127,24 +122,24 @@ class _LoginState extends State<Login> {
                               controller: _passwordController,
                               obscureText: true,
                               style: const TextStyle(
-                                color: Colors.black54, // Set the desired text color
+                                color: Colors.white, // Set the desired text color
                               ),
                               decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.key),
-                                  prefixIconColor: Colors.grey.shade700,
+                                  prefixIconColor: Colors.white,
                                   filled: true,
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
-                                  fillColor: Color.fromRGBO(233, 230, 244,0.9), labelText: "Password",
+                                  fillColor: Colors.grey.shade800, labelText: "Password",
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white70),
+                                    borderSide: BorderSide(color: Colors.grey.shade800),
                                     borderRadius: BorderRadius.circular(20.0), // Set the same border radius here
                                   ), focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                                    borderSide: BorderSide(color: Colors.amber),
                                   ), border:  OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide(color: Colors.orange),
-                                  ), labelStyle: TextStyle(color: Colors.grey.shade700, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
+                                  ), labelStyle: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold)),
                               validator: (val) {
                                 if (val!.length < 6) {
                                   return "Password must be at least 6 characters";
@@ -168,7 +163,7 @@ class _LoginState extends State<Login> {
                                   height: 50, // Set the desired height of the button
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Colors.blue, Color.fromRGBO(88, 101, 242, 0.9)], // Replace with your desired gradient colors
+                                      colors: [Colors.amber, Colors.amber.shade300], // Replace with your desired gradient colors
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -189,12 +184,12 @@ class _LoginState extends State<Login> {
                               ),
                             ) ,
                             SizedBox(height: 20,),
-                            const Text('Or', style: TextStyle(color: Colors.black54),),
+                            const Text('Or', style: TextStyle(color: Colors.white70),),
                             SizedBox(height: 20,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Not a user? ', style: TextStyle(color: Colors.black54 ,
+                                Text('Not a user? ', style: TextStyle(color: Colors.white70 ,
                                     fontSize: 14),),
                                 InkWell(
                                   onTap:(){
@@ -204,7 +199,7 @@ class _LoginState extends State<Login> {
 
                                   },
                                   child: Text('Create Account',
-                                    style: TextStyle(color:Colors.blueAccent,
+                                    style: TextStyle(color:Colors.amber.shade300,
                                         fontSize: 15  ),),
                                 )
                               ],

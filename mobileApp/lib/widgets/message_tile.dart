@@ -47,8 +47,8 @@ class _MessageTileState extends State<MessageTile> {
               bottomRight: Radius.circular(20),
             ),
             color: widget.sentByMe
-                ? Colors.blueAccent
-                : Color.fromRGBO(233, 230, 244,0.9)),
+                ? Colors.amber.shade400
+                : Colors.white70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,7 +60,7 @@ class _MessageTileState extends State<MessageTile> {
                 style:  TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color : widget.sentByMe?  Colors.white : Colors.blueAccent,
+                    color : widget.sentByMe?  Colors.white : Colors.amber,
                     letterSpacing: -0.5),
               ),
             ),
@@ -71,7 +71,7 @@ class _MessageTileState extends State<MessageTile> {
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(widget.message,
                   textAlign : widget.sentByMe ? TextAlign.end :TextAlign.start,
-                  style : widget.sentByMe ? const TextStyle(fontSize:12, color: Colors.white70, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
+                  style : widget.sentByMe ? const TextStyle(fontSize:15, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
                       :  TextStyle(fontSize:12, color: Colors.black87,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
             )
           ],

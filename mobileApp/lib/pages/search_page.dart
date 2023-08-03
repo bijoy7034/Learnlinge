@@ -145,21 +145,23 @@ class _SearchPageState extends State<SearchPage> {
       },
     ),
         )
-        : Column(
-          children: [
-            SizedBox(height: 200,),
-            Center(
-              child: SvgPicture.asset(
-                'Assets/undraw_book_lover_re_rwjy.svg',
-                semanticsLabel: 'My SVG Image',
-                width: 200,
+        : SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 100,),
+              Center(
+                child: SvgPicture.asset(
+                  'Assets/undraw_book_lover_re_rwjy.svg',
+                  semanticsLabel: 'My SVG Image',
+                  width: 200,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Text('Type room name in the search bar on the search screen to discover a wide range of results', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand'), textAlign: TextAlign.center,),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Text('Type room name in the search bar on the search screen to discover a wide range of results', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand'), textAlign: TextAlign.center,),
+              )
+            ],
+          ),
         );
   }
 

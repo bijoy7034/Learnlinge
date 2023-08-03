@@ -54,28 +54,22 @@ class _MessageTileState extends State<MessageTile> {
           children: [
             Padding(
               padding: widget.sentByMe ? const EdgeInsets.only(right: 8.0) : const EdgeInsets.only(right: 18.0),
-              child: Expanded(
-                child: Text(
-                  widget.sender.toUpperCase(),
-                  textAlign : widget.sentByMe ? TextAlign.start :TextAlign.start,
-                  style:  TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Quicksand',
-                      color : widget.sentByMe?  Colors.grey.shade800 : Colors.amber,
-                      letterSpacing: -0.5),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 1,
+              child: widget.sentByMe ? SizedBox(height: 1,) :Text(
+                widget.sender.toUpperCase(),
+                textAlign : widget.sentByMe ? TextAlign.start :TextAlign.start,
+                style:  TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color : Colors.amber,
+                    letterSpacing: -0.5),
+              )
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(widget.message,
                   textAlign : widget.sentByMe ? TextAlign.justify :TextAlign.justify,
-                  style : widget.sentByMe ? const TextStyle(fontSize:15, color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
-                      :  TextStyle(fontSize:15, color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
+                  style : widget.sentByMe ? const TextStyle(fontSize:13, color: Colors.black, fontWeight: FontWeight.bold, fontFamily: 'Quicksand')
+                      :  TextStyle(fontSize:13, color: Colors.white,fontWeight: FontWeight.bold, fontFamily: 'Quicksand')),
             )
           ],
         ),

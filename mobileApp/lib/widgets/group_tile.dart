@@ -44,7 +44,7 @@ class _GroupTileState extends State<GroupTile> {
             ));
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        padding: const EdgeInsets.symmetric( horizontal: 5),
         child: Column(
           children: [
             ListTile(
@@ -68,9 +68,13 @@ class _GroupTileState extends State<GroupTile> {
               ),
               subtitle: Text(
                 "Join the conversation as ${widget.userName}",
-                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 13, color: Colors.white70, fontFamily: 'Quicksand'),
+                style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 13, color: Colors.white60, fontFamily: 'Quicksand'),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, right: 18),
+              child: Divider(color: Colors.amber.shade300,thickness: 0.15,),
+            )
 
           ],
         ),

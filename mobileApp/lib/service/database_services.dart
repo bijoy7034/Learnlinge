@@ -16,6 +16,8 @@ class DatabaseService {
       "fullName": fullName,
       "email": email,
       "groups": [],
+      "pendingRequests":[],
+      "connections":[],
       "profilePic": "",
       "uid": uid,
     });

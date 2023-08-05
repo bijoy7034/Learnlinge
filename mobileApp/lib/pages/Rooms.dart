@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -67,6 +68,137 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
     });
   }
 
+  //connections
+
+
+  Stream<List<String>> getConnectedUsers() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists) {
+        return (snapshot.data()?['connections'] as List<dynamic>)
+            .cast<String>();
+      } else {
+        return [];
+      }
+    });
+  }
+
+
+
+  //request handiling
+  final String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  Future<String> getUserName(String userId) async {
+    final userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get();
+
+    if (userDoc.exists) {
+      return userDoc.data()?['fullName'] ?? '';
+    } else {
+      return '';
+    }
+  }
+
+
+  Stream<List<String>> getPendingRequests() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists) {
+        return (snapshot.data()?['pendingRequests'] as List<dynamic>)
+            .cast<String>();
+      } else {
+        return [];
+      }
+    });
+  }
+
+  Future<void> acceptRequest(String senderUserId) async {
+    final currentUserRef =
+    FirebaseFirestore.instance.collection('users').doc(userId);
+    final senderUserRef =
+    FirebaseFirestore.instance.collection('users').doc(senderUserId);
+
+    final currentUserDoc = await currentUserRef.get();
+    final senderUserDoc = await senderUserRef.get();
+
+    if (currentUserDoc.exists && senderUserDoc.exists) {
+      final currentUserConnections =
+      currentUserDoc.data()?['connections'] as List<dynamic>;
+      final senderConnections =
+      senderUserDoc.data()?['connections'] as List<dynamic>;
+
+      // Add the sender's ID to the current user's connections list
+      if (!currentUserConnections.contains(senderUserId)) {
+        currentUserConnections.add(senderUserId);
+      }
+
+      // Add the current user's ID to the sender's connections list
+      if (!senderConnections.contains(userId)) {
+        senderConnections.add(userId);
+      }
+
+      // Update the current user's connections list
+      await currentUserRef.update({
+        'connections': currentUserConnections,
+        'pendingRequests': FieldValue.arrayRemove([senderUserId]),
+      });
+
+      // Update the sender's connections list
+      await senderUserRef.update({
+        'connections': senderConnections,
+      });
+
+      // You may also show a snackbar or toast to indicate that the request was accepted.
+    }
+  }
+
+  Future<void> removeConnection(String targetUserId) async {
+    final currentUserRef =
+    FirebaseFirestore.instance.collection('users').doc(userId);
+    final targetUserRef =
+    FirebaseFirestore.instance.collection('users').doc(targetUserId);
+
+    final currentUserDoc = await currentUserRef.get();
+    final targetUserDoc = await targetUserRef.get();
+
+    if (currentUserDoc.exists && targetUserDoc.exists) {
+      final currentUserConnections =
+      currentUserDoc.data()?['connections'] as List<dynamic>;
+      final targetUserConnections =
+      targetUserDoc.data()?['connections'] as List<dynamic>;
+
+      // Remove the target user's ID from the current user's connections list
+      if (currentUserConnections.contains(targetUserId)) {
+        currentUserConnections.remove(targetUserId);
+      }
+
+      // Remove the current user's ID from the target user's connections list
+      if (targetUserConnections.contains(userId)) {
+        targetUserConnections.remove(userId);
+      }
+
+      // Update the current user's connections list
+      await currentUserRef.update({
+        'connections': currentUserConnections,
+      });
+
+      // Update the target user's connections list
+      await targetUserRef.update({
+        'connections': targetUserConnections,
+      });
+
+      // You may also show a snackbar or toast to indicate that the connection was removed.
+    }
+  }
+
 
 
   void _toggleSearch() {
@@ -85,7 +217,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
         child: Column(
           children: [
             SizedBox(height: 60,),
-            Text('LearnLINGE', style: TextStyle(color: Colors.amber.shade400, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 30),),
+            Text('LearnLinge', style: TextStyle(color: Colors.amber.shade400, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 30),),
             Text('A Learning Community', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, fontSize: 10) ,),
             SizedBox(height: 50,),
             Padding(
@@ -161,13 +293,31 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                     controller: _tabController,
                     tabs: const [
                       Tab(
-                        child: Text('Rooms', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
+                        child: Row(
+                          children: [
+                            Icon(Icons.group, size: 17,),
+                            SizedBox(width: 5,),
+                            Text('Rooms', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
+                          ],
+                        ),
                       ),
                       Tab(
-                        child: Text('Chats', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                        child: Row(
+                          children: [
+                            Icon(Icons.wechat_sharp, size: 17,),
+                            SizedBox(width: 5,),
+                            Text('Chats', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                          ],
+                        ),
                       ),
                       Tab(
-                        child: Text('Meetings', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                        child: Row(
+                          children: [
+                            Icon(Icons.notifications, size: 17,),
+                            SizedBox(width: 5,),
+                            Text('Resuests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -179,8 +329,8 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                   controller: _tabController,
                   children:  [
                     grouplist(),
-                    Center(child: Text('No chats', style: TextStyle(color: Colors.white),)),
-                    Center(child: Text('No calls', style: TextStyle(color: Colors.white),)),
+                    connectionlist(),
+                    pendingList()
                   ],
                 ),
               ),
@@ -266,6 +416,195 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
     );
   }
 
+  pendingList(){
+    return StreamBuilder<List<String>>(
+      stream: getPendingRequests(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        List<String> pendingRequests = snapshot.data ?? [];
+
+        if (pendingRequests.isEmpty) {
+          return Center(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'Assets/undraw_begin_chat_re_v0lw.svg',
+                semanticsLabel: 'My SVG Image',
+                width: 200,
+              ),
+              SizedBox(height: 15,),
+              Text('No requests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),)
+            ],
+          ),);
+        }
+
+        return ListView.builder(
+
+          itemCount: pendingRequests.length,
+          itemBuilder: (context, index) {
+            String senderUserId = pendingRequests[index];
+
+            return FutureBuilder<String>(
+              future: getUserName(senderUserId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListTile(
+                    title: CircularProgressIndicator(color: Colors.amber,),
+                  );
+                }
+
+                String userName = snapshot.data ?? '';
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        userName
+                            .substring(0, 1)
+                            .toUpperCase(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    title: Text('$userName', style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            acceptRequest(senderUserId);
+                          },
+                          child: Text('Accept', style: TextStyle(color: Colors.amber),),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // Implement a function to reject the request if needed.
+                            // For example: rejectRequest(senderUserId);
+                          },
+                          child: Text('Reject',style: TextStyle(color: Colors.redAccent)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  connectionlist(){
+    return StreamBuilder<List<String>>(
+      stream: getConnectedUsers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        List<String> connectedUsers = snapshot.data ?? [];
+
+        if (connectedUsers.isEmpty) {
+          return Center(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'Assets/undraw_respond_re_iph2.svg',
+                semanticsLabel: 'My SVG Image',
+                width: 250,
+              ),
+              SizedBox(height: 15,),
+              Padding(
+                padding: const EdgeInsets.only(left: 32, right: 32),
+                child: Text('No chats and no connections ! \n You can connect people within your rooms', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+              )
+            ],
+          ),);
+        }
+
+        return ListView.builder(
+          itemCount: connectedUsers.length,
+          itemBuilder: (context, index) {
+            String connectedUserId = connectedUsers[index];
+
+            return FutureBuilder<String>(
+              future: getUserName(connectedUserId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return  Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Center(child: CircularProgressIndicator(color: Colors.amber,)),
+                  );
+                }
+
+                String userName = snapshot.data ?? '';
+
+                return Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            userName
+                                .substring(0, 1)
+                                .toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        title: Text('$userName', style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
+                        trailing:  PopupMenuButton(
+                            icon: Icon(Icons.more_vert, color: Colors.white,),
+                            color : Colors.grey.shade800,
+                            itemBuilder: (context)=> [
+                              PopupMenuItem(
+                                  child: Text('Details',
+                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+                              PopupMenuItem(
+                                  onTap: (){
+                                    removeConnection(connectedUserId);
+                                  },
+                                  child: Text('Remove',
+                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+
+                              PopupMenuItem(
+                                  child: Text('Block',
+                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),))
+                            ]),
+                      ),
+                      SizedBox(height: 2,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0, right: 18),
+                        child: Divider(color: Colors.amber.shade400,thickness: 0.1,),
+                      )
+
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
   grouplist() {
     return StreamBuilder(
     stream: groups,
@@ -278,10 +617,37 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
               itemCount: snapshot.data['groups'].length,
               itemBuilder: (context, index) {
                 int reverseIndex = snapshot.data['groups'].length - index - 1;
-                return GroupTile(
-                    groupId: getId(snapshot.data['groups'][reverseIndex]),
-                    groupName: getName(snapshot.data['groups'][reverseIndex]),
-                    userName: snapshot.data['fullName']);
+                return Slidable(
+                  startActionPane: ActionPane(
+                    motion: const StretchMotion() ,
+                    children: [
+                      SlidableAction(
+                        onPressed: _removegroup(),
+                        backgroundColor: Colors.redAccent,
+                        icon: Icons.delete_outline,
+                      ),
+                      SlidableAction(
+                        onPressed: _removegroup(),
+                        backgroundColor: Colors.amber.shade400,
+                        icon: Icons.notifications_off_rounded,
+                      )
+                    ],
+                  ),
+                  endActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: _removegroup(),
+                        backgroundColor: Colors.green.shade400,
+                        icon: Icons.archive,
+                      )
+                    ],
+                  ),
+                  child: GroupTile(
+                      groupId: getId(snapshot.data['groups'][reverseIndex]),
+                      groupName: getName(snapshot.data['groups'][reverseIndex]),
+                      userName: snapshot.data['fullName']),
+                );
               },
             );
           } else {
@@ -479,4 +845,6 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
       ),
     );
   }
+
+  _removegroup() {}
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../service/database_services.dart';
 import '../widgets/message_tile.dart';
@@ -149,9 +150,23 @@ class _ChatPageState extends State<ChatPage> {
                   }
 
                   if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
-                    return Center(
-                      child: Text('No messages yet.'),
-                    );
+                    return Center(child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'Assets/undraw_respond_re_iph2.svg',
+                          semanticsLabel: 'My SVG Image',
+                          width: 200,
+                        ),
+                        SizedBox(height: 15,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 32, right: 32),
+                          child: Text('No messages yet', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                        ),
+                        SizedBox(height: 55,),
+                      ],
+                    ),);
                   }
 
                   WidgetsBinding.instance!.addPostFrameCallback((_) {

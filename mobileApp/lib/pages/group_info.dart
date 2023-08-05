@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:learnlign/pages/Rooms.dart';
 import 'package:learnlign/pages/homePage.dart';
 
 import '../service/database_services.dart';
@@ -37,6 +37,39 @@ class _GroupInfoState extends State<GroupInfo> {
       setState(() {
         members = val;
       });
+    });
+  }
+
+  Future<bool> isConnectionRequestSent(String targetUserId) async {
+    final currentUserDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(targetUserId)
+        .get();
+
+    if (currentUserDoc.exists) {
+      final pendingRequests =
+      currentUserDoc.data()?['pendingRequests'] as List<dynamic>;
+      return pendingRequests.contains(FirebaseAuth.instance.currentUser!.uid) ;
+    }
+    return false;
+  }
+  Future<bool> isConnected(String targetUserId) async {
+    final currentUserDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(targetUserId)
+        .get();
+
+    if (currentUserDoc.exists) {
+      final pendingRequests =
+      currentUserDoc.data()?['connections'] as List<dynamic>;
+      return pendingRequests.contains(FirebaseAuth.instance.currentUser!.uid) ;
+    }
+    return false;
+  }
+
+  Future<void> sendConnectionRequest(String currentUserId, String targetUserId) async {
+    await FirebaseFirestore.instance.collection('users').doc(targetUserId).update({
+      'pendingRequests': FieldValue.arrayUnion([currentUserId]),
     });
   }
 
@@ -172,51 +205,89 @@ class _GroupInfoState extends State<GroupInfo> {
                 itemCount: snapshot.data['members'].length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding:
-                    const EdgeInsets.symmetric( vertical: 1),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Theme.of(context).primaryColor,
-                            child: Text(
-                              getName(snapshot.data['members'][index])
-                                  .substring(0, 1)
-                                  .toUpperCase(),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                  final memberId = snapshot.data['members'][index];
+                  return FutureBuilder<bool>(
+                    future: isConnectionRequestSent(getId(memberId)),
+                    builder: (context, AsyncSnapshot<bool> connectedSnapshot) {
+                      if (connectedSnapshot.connectionState == ConnectionState.waiting) {
+                        return Container();
+                      } else if (connectedSnapshot.hasData) {
+                        final bool connected = connectedSnapshot.data!;
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 1),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  child: Text(
+                                    getName(memberId)
+                                        .substring(0, 1)
+                                        .toUpperCase(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                trailing: PopupMenuButton(
+                                  icon: Icon(Icons.more_vert, color: Colors.white,),
+                                  color : Colors.grey.shade800,
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      child: Text(
+                                        'Details',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      enabled: !connected,
+                                      onTap: () {
+                                        if (!connected) {
+                                          sendConnectionRequest(
+                                            FirebaseAuth.instance.currentUser!.uid,
+                                            getId(memberId),
+                                          );
+                                        }
+                                      },
+                                      child: Text(
+                                        connected ? 'Request Send' : 'Connect',
+                                        style: TextStyle(
+                                          color: connected? Colors.white54: Colors.white,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                      ),
+                                    ),
+// ... Other popup menu items ...
+                                  ],
+                                ),
+                                title: Text(
+                                  getName(memberId),
+                                  style: TextStyle(
+                                    fontFamily: 'Quicksand',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 28.0, right: 28),
+                                child: Divider(
+                                  thickness: 0.5,
+                                ),
+                              ),
+                            ],
                           ),
-                          trailing:  PopupMenuButton(
-                              icon: Icon(Icons.more_vert, color: Colors.white,),
-                              color : Colors.grey.shade800,
-                              itemBuilder: (context)=> [
-                                PopupMenuItem(
-                                    child: Text('Details',
-                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
-                                PopupMenuItem(
-                                    child: Text('Connect',
-                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
-
-                                PopupMenuItem(
-                                    child: Text('Block',
-                                      style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),))
-                              ]),
-                          title: Text(getName(snapshot.data['members'][index]),  style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
-                          // subtitle: Text(getId(snapshot.data['members'][index])),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 28.0, right: 28),
-                          child: Divider(
-                            thickness: 0.5,
-                          ),
-                        ),
-                      ],
-                    ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
                   );
                 },
               );

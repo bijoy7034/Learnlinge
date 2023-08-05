@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber.shade300,
+      backgroundColor: Colors.black,
       body:_isLoading
           ? Center(
           child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner

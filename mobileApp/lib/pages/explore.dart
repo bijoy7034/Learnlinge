@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:learnlign/pages/search_page.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -96,10 +97,10 @@ class _ExploreState extends State<Explore> {
                       Expanded(
                         child: InkWell(
                           onTap: (){
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => GroupsAll()),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SearchPage()),
+                            );
                           },
                           child: Container(
                             decoration: BoxDecoration(

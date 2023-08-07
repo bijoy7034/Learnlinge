@@ -69,6 +69,21 @@ class DatabaseService {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> getOneToOneChatMessagesStream(String currentUser, String receiverId) {
+    // Construct the chat ID using user IDs (you can concatenate the IDs and sort them alphabetically)
+    String chatId = currentUser.compareTo(receiverId) < 0
+        ? '$currentUser-$receiverId'
+        : '$receiverId-$currentUser';
+
+    // Replace 'one_to_one_chats' with the name of your collection containing one-to-one chats
+    return FirebaseFirestore.instance
+        .collection('one_to_one_chats')
+        .doc(chatId)
+        .collection('messages')
+        .orderBy('timestamp')
+        .snapshots();
+  }
+
   Future getGroupAdmin(String groupId) async {
     DocumentReference d = groupCollection.doc(groupId);
     DocumentSnapshot documentSnapshot = await d.get();

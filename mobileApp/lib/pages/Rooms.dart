@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:learnlign/pages/personal_chat.dart';
 import 'package:learnlign/pages/search_page.dart';
 import '../helper/helper_fuction.dart';
 import '../service/database_services.dart';
@@ -452,8 +453,8 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
               future: getUserName(senderUserId),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return ListTile(
-                    title: CircularProgressIndicator(color: Colors.amber,),
+                  return Center(
+                    child: CircularProgressIndicator(color: Colors.amber,),
                   );
                 }
 
@@ -555,6 +556,9 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                   child: Column(
                     children: [
                       ListTile(
+                        onTap: (){
+                          nextScreen(context, OneToOneChatScreen(receiverId: connectedUsers[index], receiverName: '$userName', userName: FirebaseAuth.instance.currentUser!.uid ));
+                        },
                         leading: CircleAvatar(
                           radius: 25,
                           backgroundColor: Theme.of(context).primaryColor,

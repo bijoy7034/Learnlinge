@@ -263,7 +263,6 @@ class _GroupInfoState extends State<GroupInfo> {
                                         ),
                                       ),
                                     ),
-// ... Other popup menu items ...
                                   ],
                                 ),
                                 title: Text(

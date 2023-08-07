@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:learnlign/pages/connectionHome.dart';
 import 'package:learnlign/pages/search_page.dart';
 
 class Explore extends StatefulWidget {
@@ -141,57 +142,70 @@ class _ExploreState extends State<Explore> {
                       Expanded(child: Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.grey.shade800,
-                                    Colors.grey.shade800,
-                                  ],
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => UsersListScreen()),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.grey.shade800,
+                                      Colors.grey.shade800,
+                                    ],
+                                  ),
+                                  borderRadius:
+                                  BorderRadius.circular(10.0), // Set the border radius value
                                 ),
-                                borderRadius:
-                                BorderRadius.circular(10.0), // Set the border radius value
-                              ),
-                              height: 130,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.menu_book_rounded, size: 30, color: Colors.green,),
-                                    Text('Study Materials', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                        fontWeight:FontWeight.bold, fontSize: 13),)
-                                  ],
+                                height: 130,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
+                                      Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                          fontWeight:FontWeight.bold, fontSize: 13),)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(width: 15,),
                           Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.grey.shade800,
-                                    Colors.grey.shade800,
+                            child: InkWell(
+                              onTap: (){
 
-                                  ],
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.grey.shade800,
+                                      Colors.grey.shade800,
+
+                                    ],
+                                  ),
+                                  borderRadius:
+                                  BorderRadius.circular(10.0), // Set the border radius value
                                 ),
-                                borderRadius:
-                                BorderRadius.circular(10.0), // Set the border radius value
-                              ),
-                              height: 130,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.stacked_bar_chart, size: 30, color: Colors.blueAccent,),
-                                    Text('Discussion Forums', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                        fontWeight:FontWeight.bold, fontSize: 13),)
-                                  ],
+                                height: 130,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.stacked_bar_chart, size: 35, color: Colors.blueAccent,),
+                                      Text('Discussion Forums', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                          fontWeight:FontWeight.bold, fontSize: 13),)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

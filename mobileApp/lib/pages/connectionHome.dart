@@ -1,8 +1,11 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:learnlign/pages/peopleProfile.dart';
+import 'package:learnlign/widgets/widgets.dart';
 
 class UserSearchScreen extends SearchDelegate<String> {
   final CollectionReference usersCollection =
@@ -81,6 +84,12 @@ class UserSearchScreen extends SearchDelegate<String> {
                 child: Text('No users found.'),
               );
             }
+            List<QueryDocumentSnapshot> users = snapshot.data!.docs;
+
+            // Exclude the current user from the list
+            String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+            users = users.where((user) => user.id != currentUserId).toList();
+
 
             return Column(
               children: [
@@ -89,11 +98,13 @@ class UserSearchScreen extends SearchDelegate<String> {
                 SizedBox(height: 15,),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount:  users.length,
                     itemBuilder: (context, index) {
-                      var userData = snapshot.data!.docs[index].data() as Map<String, dynamic>?; // Nullable
-                      var fullName = userData?['fullName'] as String?; // Nullable
-                      var email = userData?['email'] as String?; // Nullable
+                      var userData = users[index].data() as Map<String, dynamic>?; // Nullable
+                      var fullName = userData?['fullName'] as String?;
+                      var userId = userData?['uid'] as String?;
+                      var connetions= userData?['connections'] as List<dynamic>?;
+                      var email = userData?['email'] as String?;// Nullable
 
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -119,7 +130,7 @@ class UserSearchScreen extends SearchDelegate<String> {
                             ),
                             trailing: InkWell(
                               onTap: (){
-
+                                nextScreen(context, People(userName: fullName, userId: userId ?? '', con_no: connetions!.length));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -128,7 +139,7 @@ class UserSearchScreen extends SearchDelegate<String> {
                                 ),
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                child: const Text("Connect",
+                                child: const Text("View",
                                     style: TextStyle(color: Colors.white)),
                               ),
                             ),
@@ -225,6 +236,9 @@ class UsersListScreen extends StatelessWidget {
             // Get the list of users from the snapshot
             List<QueryDocumentSnapshot> users = snapshot.data!.docs;
 
+            String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+            users = users.where((user) => user.id != currentUserId).toList();
+
             // Display a maximum of 6 random users if the user count is more than 6
             List<QueryDocumentSnapshot> randomUsers;
             if (users.length > 6) {
@@ -252,7 +266,9 @@ class UsersListScreen extends StatelessWidget {
                     itemCount: randomUsers.length,
                     itemBuilder: (context, index) {
                       var userData = randomUsers[index].data() as Map<String, dynamic>?; // Nullable
-                      var fullName = userData?['fullName'] as String?; // Nullable
+                      var fullName = userData?['fullName'] as String?;
+                      var userId = userData?['uid'] as String?;
+                      var connetions= userData?['connections'] as List<dynamic>?;
                       var email = userData?['email'] as String?; // Nullable
 
                       return Padding(
@@ -279,7 +295,7 @@ class UsersListScreen extends StatelessWidget {
                             ),
                             trailing: InkWell(
                               onTap: (){
-
+                                nextScreen(context, People(userName: fullName, userId: userId ?? '', con_no: connetions!.length,));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -288,7 +304,7 @@ class UsersListScreen extends StatelessWidget {
                                 ),
                                 padding:
                                 const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                child: const Text("Connect",
+                                child: const Text("View",
                                     style: TextStyle(color: Colors.white)),
                               ),
                             ),

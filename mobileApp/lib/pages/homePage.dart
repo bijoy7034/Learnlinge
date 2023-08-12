@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.3,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        backgroundColor: Colors.grey.shade900,
+        backgroundColor: Color.fromRGBO(27, 28, 28, 1),
         iconSize: 30,
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.amber.shade300,

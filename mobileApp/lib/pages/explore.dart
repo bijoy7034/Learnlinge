@@ -54,7 +54,7 @@ class _ExploreState extends State<Explore> {
       body: Container(
         height: 800,
         decoration: BoxDecoration(
-          color: Colors.grey.shade900,
+          color: Color.fromRGBO(27, 28, 28, 1),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),
@@ -112,8 +112,8 @@ class _ExploreState extends State<Explore> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Colors.grey.shade800,
-                                  Colors.grey.shade800,
+                                  Color.fromRGBO(47, 48, 48, 1),
+                                  Color.fromRGBO(47, 48, 48, 1),
                                 ],
                               ),
                               borderRadius:
@@ -159,8 +159,8 @@ class _ExploreState extends State<Explore> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        Colors.grey.shade800,
-                                        Colors.grey.shade800,
+                                        Color.fromRGBO(47, 48, 48, 1),
+                                        Color.fromRGBO(47, 48, 48, 1),
                                       ],
                                     ),
                                     borderRadius:
@@ -194,8 +194,8 @@ class _ExploreState extends State<Explore> {
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        Colors.grey.shade800,
-                                        Colors.grey.shade800,
+                                        Color.fromRGBO(47, 48, 48, 1),
+                                        Color.fromRGBO(47, 48, 48, 1),
 
                                       ],
                                     ),
@@ -235,6 +235,11 @@ class _ExploreState extends State<Explore> {
                       semanticsLabel: 'My SVG Image',
                       width: 230,
                     ),),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Text('Unlocking Minds, Empowering Futures: Join Our Learning Community!' , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', color: Colors.white70),)),
+                ),
 
               ],
             ),

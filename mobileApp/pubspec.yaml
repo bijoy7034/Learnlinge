@@ -49,7 +49,9 @@ dependencies:
   tuple: ^2.0.2
   rxdart: ^0.27.7
   animate_do: ^3.0.2
-  speech_to_text: ^6.3.0
+  speech_to_text: ^6.1.1
+  http: ^1.1.0
+  flutter_tts: ^3.7.0
 
 dev_dependencies:
   flutter_test:

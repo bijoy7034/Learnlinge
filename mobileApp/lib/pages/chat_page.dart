@@ -127,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade900,
+          color: Color.fromRGBO(27, 28, 28, 1),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),

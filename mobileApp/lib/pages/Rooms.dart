@@ -270,7 +270,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
       body:SlideInUp(
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.shade900,
+            color:Color.fromRGBO(27, 28, 28, 1),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(50.0),
               topRight: Radius.circular(50.0),

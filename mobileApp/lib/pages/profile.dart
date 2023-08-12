@@ -90,7 +90,7 @@ class _ProfileState extends State<Profile> {
             Container(
               height: 900,
               decoration: BoxDecoration(
-                color: Colors.grey.shade900,
+                color: Color.fromRGBO(27, 28, 28, 1),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50.0),
                   topRight: Radius.circular(50.0),

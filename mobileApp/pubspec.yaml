@@ -48,6 +48,8 @@ dependencies:
   page_transition: ^2.0.9
   tuple: ^2.0.2
   rxdart: ^0.27.7
+  animate_do: ^3.0.2
+  speech_to_text: ^6.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:learnlign/pages/cgatgpt.dart';
 import 'package:learnlign/pages/connectionHome.dart';
 import 'package:learnlign/pages/search_page.dart';
+import 'package:learnlign/widgets/widgets.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -142,35 +145,37 @@ class _ExploreState extends State<Explore> {
                       Expanded(child: Row(
                         children: [
                           Expanded(
-                            child: InkWell(
-                              onTap: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => UsersListScreen()),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.grey.shade800,
-                                      Colors.grey.shade800,
-                                    ],
+                            child: FadeIn(
+                              child: InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => UsersListScreen()),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Colors.grey.shade800,
+                                        Colors.grey.shade800,
+                                      ],
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0), // Set the border radius value
                                   ),
-                                  borderRadius:
-                                  BorderRadius.circular(10.0), // Set the border radius value
-                                ),
-                                height: 130,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
-                                      Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                          fontWeight:FontWeight.bold, fontSize: 13),)
-                                    ],
+                                  height: 130,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
+                                        Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                            fontWeight:FontWeight.bold, fontSize: 13),)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -178,33 +183,40 @@ class _ExploreState extends State<Explore> {
                           ),
                           SizedBox(width: 15,),
                           Expanded(
-                            child: InkWell(
-                              onTap: (){
+                            child: FadeIn(
+                              child: InkWell(
+                                onTap: (){
 
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.grey.shade800,
-                                      Colors.grey.shade800,
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        Colors.grey.shade800,
+                                        Colors.grey.shade800,
 
-                                    ],
+                                      ],
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0), // Set the border radius value
                                   ),
-                                  borderRadius:
-                                  BorderRadius.circular(10.0), // Set the border radius value
-                                ),
-                                height: 130,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.stacked_bar_chart, size: 35, color: Colors.blueAccent,),
-                                      Text('Discussion Forums', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                          fontWeight:FontWeight.bold, fontSize: 13),)
-                                    ],
+                                  height: 130,
+                                  child: InkWell(
+                                    onTap: (){
+                                      nextScreen(context, AlChatBox());
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.chat_outlined, size: 35, color: Colors.blueAccent,),
+                                          Text('AI Assistant', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                              fontWeight:FontWeight.bold, fontSize: 13),)
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),

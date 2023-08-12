@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -266,78 +267,80 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
         ),
       ),
 
-      body:Container(
-        decoration: BoxDecoration(
-          color: Colors.grey.shade900,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50.0),
-            topRight: Radius.circular(50.0),
+      body:SlideInUp(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade900,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50.0),
+              topRight: Radius.circular(50.0),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 28.0, right: 28),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[850],
-                    borderRadius: BorderRadius.circular(25.0),
+          child: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 28.0, right: 28),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[850],
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: TabBar(
+                      indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.0),
+                          color: Colors.amber.shade400),
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white,
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(
+                          child: Row(
+                            children: [
+                              Icon(Icons.group, size: 17,),
+                              SizedBox(width: 5,),
+                              Text('Rooms', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                        ),
+                        Tab(
+                          child: Row(
+                            children: [
+                              Icon(Icons.wechat_sharp, size: 17,),
+                              SizedBox(width: 5,),
+                              Text('Chats', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                        ),
+                        Tab(
+                          child: Row(
+                            children: [
+                              Icon(Icons.notifications, size: 17,),
+                              SizedBox(width: 5,),
+                              Text('Resuests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: TabBar(
-                    indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25.0),
-                        color: Colors.amber.shade400),
-                    labelColor: Colors.white,
-                    unselectedLabelColor: Colors.white,
+                ),
+                SizedBox(height: 10,),
+                Expanded(
+                  child: TabBarView(
                     controller: _tabController,
-                    tabs: const [
-                      Tab(
-                        child: Row(
-                          children: [
-                            Icon(Icons.group, size: 17,),
-                            SizedBox(width: 5,),
-                            Text('Rooms', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            Icon(Icons.wechat_sharp, size: 17,),
-                            SizedBox(width: 5,),
-                            Text('Chats', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          children: [
-                            Icon(Icons.notifications, size: 17,),
-                            SizedBox(width: 5,),
-                            Text('Resuests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                      ),
+                    children:  [
+                      grouplist(),
+                      connectionlist(),
+                      pendingList()
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children:  [
-                    grouplist(),
-                    connectionlist(),
-                    pendingList()
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
+              ],
+            ),
+          )
+        ),
       ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

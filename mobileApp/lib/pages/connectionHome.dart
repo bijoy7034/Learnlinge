@@ -104,7 +104,9 @@ class UserSearchScreen extends SearchDelegate<String> {
                       var fullName = userData?['fullName'] as String?;
                       var userId = userData?['uid'] as String?;
                       var connetions= userData?['connections'] as List<dynamic>?;
-                      var email = userData?['email'] as String?;// Nullable
+                      var pic = userData?['profilePic'] as String?;
+                      var description = userData?['description'] as String?;// Nullable
+
 
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -130,7 +132,7 @@ class UserSearchScreen extends SearchDelegate<String> {
                             ),
                             trailing: InkWell(
                               onTap: (){
-                                nextScreen(context, People(userName: fullName, userId: userId ?? '', con_no: connetions!.length));
+                                nextScreen(context, People(userName: fullName, userId: userId!, con_no: connetions!.length, pic: pic!, desc: description!,));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -269,7 +271,8 @@ class UsersListScreen extends StatelessWidget {
                       var fullName = userData?['fullName'] as String?;
                       var userId = userData?['uid'] as String?;
                       var connetions= userData?['connections'] as List<dynamic>?;
-                      var email = userData?['email'] as String?; // Nullable
+                      var pic = userData?['profilePic'] as String?;
+                      var description = userData?['description'] as String?;
 
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -281,21 +284,12 @@ class UsersListScreen extends StatelessWidget {
                           ),
                           child: ListTile(
                             leading: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Theme.of(context).primaryColor,
-                              child: Text(
-                                fullName!
-                                    .substring(0, 1)
-                                    .toUpperCase(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              radius: 16,
+                              backgroundImage: NetworkImage(pic!), // Replace with the actual field name
                             ),
                             trailing: InkWell(
                               onTap: (){
-                                nextScreen(context, People(userName: fullName, userId: userId ?? '', con_no: connetions!.length,));
+                                nextScreen(context, People(userName: fullName!, userId: userId ?? '', con_no: connetions!.length, pic: pic, desc:description! , ));
                               },
                               child: Container(
                                 decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:learnlign/apis/firebase_api.dart';
 import 'package:learnlign/helper/helper_fuction.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/homePage.dart';
@@ -11,6 +12,7 @@ import 'package:page_transition/page_transition.dart';
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseApi().initNotification();
   runApp(const Splash());
 }
 

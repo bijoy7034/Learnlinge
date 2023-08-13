@@ -28,8 +28,18 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
   bool _isLoading = false;
   String groupName = "";
   String desc = "";
+  late FirebaseAuth _auth;
+  late FirebaseFirestore _firestore;
+  late User _currentUser;
+  List<String> _connectionUIDs = []; // List of UIDs of connected users
+  List<Map<String, dynamic>> _connectedUsers = []; // List of connected user details
+
   @override
   void initState() {
+    _auth = FirebaseAuth.instance;
+    _firestore = FirebaseFirestore.instance;
+    _currentUser = _auth.currentUser!;
+    _fetchConnections();
     gettingUserData();
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
@@ -38,6 +48,20 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+  Future<void> _fetchConnections() async {
+    // Fetch the user's connection list from Firestore
+    DocumentSnapshot userSnapshot = await _firestore.collection('users').doc(_currentUser.uid).get();
+    List<dynamic> connectionUIDs = userSnapshot['connections'];
+
+    // Fetch details of connected users
+    List<Future<DocumentSnapshot>> userFutures = connectionUIDs.map((uid) => _firestore.collection('users').doc(uid).get()).toList();
+    List<DocumentSnapshot> userSnapshots = await Future.wait(userFutures);
+
+    // Store connected user details
+    _connectedUsers = userSnapshots.map((snapshot) => snapshot.data() as Map<String, dynamic>).toList();
+
+    setState(() {});
   }
 
   // string manipulation
@@ -509,108 +533,74 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
   }
 
   connectionlist(){
-    return StreamBuilder<List<String>>(
-      stream: getConnectedUsers(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        List<String> connectedUsers = snapshot.data ?? [];
-
-        if (connectedUsers.isEmpty) {
-          return Center(child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+    return _connectedUsers.length == 0 ?
+    Center(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'Assets/undraw_respond_re_iph2.svg',
+                    semanticsLabel: 'My SVG Image',
+                    width: 250,
+                  ),
+                  SizedBox(height: 15,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 32, right: 32),
+                    child: Text('No chats and no connections ! \n You can connect people within your rooms', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                  )
+                ],
+              ),)
+        :
+      ListView.builder(
+      itemCount: _connectedUsers.length,
+      itemBuilder: (context, index) {
+        Map<String, dynamic> user = _connectedUsers[index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
             children: [
-              SvgPicture.asset(
-                'Assets/undraw_respond_re_iph2.svg',
-                semanticsLabel: 'My SVG Image',
-                width: 250,
+              ListTile(
+                onTap: (){
+                  nextScreen(context, OneToOneChatScreen(receiverId: user['uid'], receiverName: user['fullName'], userName: FirebaseAuth.instance.currentUser!.uid, pic: user['profilePic'], ));
+                },
+                title: Text(user['fullName'], style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
+                trailing:  PopupMenuButton(
+                    icon: Icon(Icons.more_vert, color: Colors.white,),
+                    color : Colors.grey.shade800,
+                    itemBuilder: (context)=> [
+                      PopupMenuItem(
+                          child: Text('Details',
+                            style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+                      PopupMenuItem(
+                          onTap: (){
+                            removeConnection(user['uid']);
+                          },
+                          child: Text('Remove',
+                            style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
+
+                      PopupMenuItem(
+                          child: Text('Block',
+                            style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),))
+                    ]),
+
+                leading: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.grey.shade800,
+                  backgroundImage: NetworkImage(user['profilePic']),
+                ),
               ),
-              SizedBox(height: 15,),
+              SizedBox(height: 2,),
               Padding(
-                padding: const EdgeInsets.only(left: 32, right: 32),
-                child: Text('No chats and no connections ! \n You can connect people within your rooms', style: TextStyle(color: Colors.white70, fontFamily: 'Quicksand', fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                padding: const EdgeInsets.only(left: 18.0, right: 18),
+                child: Divider(color: Colors.amber.shade400,thickness: 0.1,),
               )
             ],
-          ),);
-        }
-
-        return ListView.builder(
-          itemCount: connectedUsers.length,
-          itemBuilder: (context, index) {
-            String connectedUserId = connectedUsers[index];
-
-            return FutureBuilder<String>(
-              future: getUserName(connectedUserId),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return  Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Center(child: CircularProgressIndicator(color: Colors.amber,)),
-                  );
-                }
-
-                String userName = snapshot.data ?? '';
-
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: (){
-                          nextScreen(context, OneToOneChatScreen(receiverId: connectedUsers[index], receiverName: '$userName', userName: FirebaseAuth.instance.currentUser!.uid ));
-                        },
-                        leading: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            userName
-                                .substring(0, 1)
-                                .toUpperCase(),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        title: Text('$userName', style: TextStyle(fontFamily: 'Quicksand',color: Colors.white, fontWeight: FontWeight.bold),),
-                        trailing:  PopupMenuButton(
-                            icon: Icon(Icons.more_vert, color: Colors.white,),
-                            color : Colors.grey.shade800,
-                            itemBuilder: (context)=> [
-                              PopupMenuItem(
-                                  child: Text('Details',
-                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
-                              PopupMenuItem(
-                                  onTap: (){
-                                    removeConnection(connectedUserId);
-                                  },
-                                  child: Text('Remove',
-                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),)),
-
-                              PopupMenuItem(
-                                  child: Text('Block',
-                                    style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),))
-                            ]),
-                      ),
-                      SizedBox(height: 2,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18.0, right: 18),
-                        child: Divider(color: Colors.amber.shade400,thickness: 0.1,),
-                      )
-
-                    ],
-                  ),
-                );
-              },
-            );
-          },
+          ),
         );
       },
     );
   }
+
 
   grouplist() {
     return StreamBuilder(
@@ -750,7 +740,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                       },
                       maxLines: 4,
                       style: const TextStyle(
-                        color: Colors.black, // Set the desired text color
+                        color: Colors.white, // Set the desired text color
                       ),
                       decoration: InputDecoration(filled: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),

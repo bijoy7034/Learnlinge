@@ -8,11 +8,15 @@ class People extends StatefulWidget {
   final String userName;
   final String userId;
   final int con_no;
+  final String pic;
+  final String desc;
   const People(
       {Key? key,
         required this.userName,
         required this.userId,
-        required this.con_no})
+        required this.con_no,
+        required this.pic,
+        required this.desc})
       : super(key: key);
   @override
   State<People> createState() => _PeopleState();
@@ -122,13 +126,8 @@ class _PeopleState extends State<People> {
           children: [
             Center(
               child: CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.amber,
-                child: Text(
-                  widget.userName.substring(0, 1).toUpperCase(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500, color: Colors.white, fontSize: 29,),
-                ),
+                radius: 56,
+                backgroundImage: NetworkImage(widget.pic), // Replace with the actual field name
               ),
             ),
             Column(
@@ -138,12 +137,28 @@ class _PeopleState extends State<People> {
                 Text(
                   "${widget.userName.toUpperCase()}",
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 27, color: Colors.white,fontFamily: 'Quicksand',),
+                  style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 27, color: Colors.amber,fontFamily: 'Quicksand',),
                 ),
                 const SizedBox(
                   height: 5,
                 ),
-                Text("Connections: ${widget.con_no}", style: TextStyle(color: Colors.white70),)
+                Text("Connections: ${widget.con_no}", style: TextStyle(color: Colors.white70),),
+                SizedBox(height: 5,),
+                Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade900 ,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                      width: double.infinity,
+
+                      child: Padding(
+                        padding: const EdgeInsets.all(13.0),
+                        child: Text(widget.desc, style: TextStyle(color: Colors.white70),),
+                      )
+                  ),
+                )
               ],
             ),
             Spacer(),

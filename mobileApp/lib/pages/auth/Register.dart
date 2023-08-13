@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/auth/Login.dart';
+import 'package:learnlign/pages/auth/profilesetup.dart';
 import 'package:learnlign/pages/homePage.dart';
+import 'package:learnlign/pages/profile.dart';
 import '../../service/auth_services.dart';
 import '../../helper/helper_fuction.dart';
 
@@ -296,7 +298,7 @@ class _RegisterPageState extends State<RegisterPage> {
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(fullName);
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
+              context, MaterialPageRoute(builder: (context) => ProfileSetup()));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

@@ -22,7 +22,7 @@ class GroupTile extends StatefulWidget {
 
 class _GroupTileState extends State<GroupTile> {
   final List<Color> iconColors = [
-    Colors.amber.shade400,
+    Colors.grey.shade800,
     // Add more colors as needed.
   ];
 
@@ -59,7 +59,7 @@ class _GroupTileState extends State<GroupTile> {
                   widget.groupName.substring(0, 1).toUpperCase(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                      color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
               title: Text(

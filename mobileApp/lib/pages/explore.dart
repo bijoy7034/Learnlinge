@@ -51,168 +51,129 @@ class _ExploreState extends State<Explore> {
         ),
       ),
       backgroundColor: Colors.black,
-      body: Container(
-        height: 800,
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(27, 28, 28, 1),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50.0),
-            topRight: Radius.circular(50.0),
+      body: SlideInUp(
+        child: Container(
+          height: 800,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(27, 28, 28, 1),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50.0),
+              topRight: Radius.circular(50.0),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                      ],
+                    ),
                   ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 7.0, right: 7, top: 60),
-                //   child: TextFormField(
-                //     style: const TextStyle(
-                //       color: Colors.white, // Set the desired text color
-                //     ),
-                //     decoration: const InputDecoration(filled: true,
-                //         contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:19),
-                //         fillColor: Colors.black54, labelText: "Search", focusedBorder: OutlineInputBorder(
-                //           borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
-                //         ), border: OutlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.orange),
-                //         ), labelStyle: TextStyle(color: Colors.white60)),
-                //     validator: (value) {
-                //       if (value == null || value.isEmpty) {
-                //         return 'Please enter a vale';
-                //       }
-                //       return null;
-                //     },
-                //   ),
-                // ),
-                const SizedBox(height: 15,),
-                Padding(
-                  padding: const EdgeInsets.only(left: 7.0, right: 7,),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SearchPage()),
-                            );
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color.fromRGBO(47, 48, 48, 1),
-                                  Color.fromRGBO(47, 48, 48, 1),
-                                ],
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 7.0, right: 7, top: 60),
+                  //   child: TextFormField(
+                  //     style: const TextStyle(
+                  //       color: Colors.white, // Set the desired text color
+                  //     ),
+                  //     decoration: const InputDecoration(filled: true,
+                  //         contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:19),
+                  //         fillColor: Colors.black54, labelText: "Search", focusedBorder: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
+                  //         ), border: OutlineInputBorder(
+                  //           borderSide: BorderSide(color: Colors.orange),
+                  //         ), labelStyle: TextStyle(color: Colors.white60)),
+                  //     validator: (value) {
+                  //       if (value == null || value.isEmpty) {
+                  //         return 'Please enter a vale';
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+                  const SizedBox(height: 15,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 7.0, right: 7,),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SearchPage()),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color.fromRGBO(47, 48, 48, 1),
+                                    Color.fromRGBO(47, 48, 48, 1),
+                                  ],
+                                ),
+                                borderRadius:
+                                BorderRadius.circular(10.0), // Set the border radius value
                               ),
-                              borderRadius:
-                              BorderRadius.circular(10.0), // Set the border radius value
-                            ),
-                            height: 130,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.groups, size: 40, color: Colors.amber,),
-                                  Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                      fontWeight:FontWeight.bold, fontSize: 23 ),),
-                                  SizedBox(height: 10,)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(left: 7.0, right: 7,),
-                  child:Row(
-                    children: [
-                      Expanded(child: Row(
-                        children: [
-                          Expanded(
-                            child: FadeIn(
-                              child: InkWell(
-                                onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => UsersListScreen()),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color.fromRGBO(47, 48, 48, 1),
-                                        Color.fromRGBO(47, 48, 48, 1),
-                                      ],
-                                    ),
-                                    borderRadius:
-                                    BorderRadius.circular(10.0), // Set the border radius value
-                                  ),
-                                  height: 130,
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
-                                        Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                            fontWeight:FontWeight.bold, fontSize: 13),)
-                                      ],
-                                    ),
-                                  ),
+                              height: 130,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.groups, size: 40, color: Colors.amber,),
+                                    Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                        fontWeight:FontWeight.bold, fontSize: 23 ),),
+                                    SizedBox(height: 10,)
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 15,),
-                          Expanded(
-                            child: FadeIn(
-                              child: InkWell(
-                                onTap: (){
-
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color.fromRGBO(47, 48, 48, 1),
-                                        Color.fromRGBO(47, 48, 48, 1),
-
-                                      ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 7.0, right: 7,),
+                    child:Row(
+                      children: [
+                        Expanded(child: Row(
+                          children: [
+                            Expanded(
+                              child: FadeIn(
+                                child: InkWell(
+                                  onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => UsersListScreen()),
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                        ],
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(10.0), // Set the border radius value
                                     ),
-                                    borderRadius:
-                                    BorderRadius.circular(10.0), // Set the border radius value
-                                  ),
-                                  height: 130,
-                                  child: InkWell(
-                                    onTap: (){
-                                      nextScreen(context, AlChatBox());
-                                    },
+                                    height: 130,
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.chat_outlined, size: 35, color: Colors.blueAccent,),
-                                          Text('AI Assistant', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                          Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
+                                          Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                               fontWeight:FontWeight.bold, fontSize: 13),)
                                         ],
                                       ),
@@ -221,27 +182,72 @@ class _ExploreState extends State<Explore> {
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ))
-                    ],
-                  ),
-                ),
-                SizedBox(height: 55,),
-                Container(
-                    width: 700,
-                    child: SvgPicture.asset(
-                      'Assets/undraw_scrum_board_re_wk7v.svg',
-                      semanticsLabel: 'My SVG Image',
-                      width: 230,
-                    ),),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Text('Unlocking Minds, Empowering Futures: Join Our Learning Community!' , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', color: Colors.white70),)),
-                ),
+                            SizedBox(width: 15,),
+                            Expanded(
+                              child: FadeIn(
+                                child: InkWell(
+                                  onTap: (){
 
-              ],
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                          Color.fromRGBO(47, 48, 48, 1),
+
+                                        ],
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(10.0), // Set the border radius value
+                                    ),
+                                    height: 130,
+                                    child: InkWell(
+                                      onTap: (){
+                                        nextScreen(context, AlChatBox());
+                                      },
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.chat_outlined, size: 35, color: Colors.blueAccent,),
+                                            Text('AI Assistant', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                                fontWeight:FontWeight.bold, fontSize: 13),)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 55,),
+                  FadeIn(
+                    child: Container(
+                        width: 700,
+                        child: SvgPicture.asset(
+                          'Assets/undraw_scrum_board_re_wk7v.svg',
+                          semanticsLabel: 'My SVG Image',
+                          width: 230,
+                        ),),
+                  ),
+                  FadeIn(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                          child: Text('Unlocking Minds, Empowering Futures: Join Our Learning Community!' , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', color: Colors.white70),)),
+                    ),
+                  ),
+
+                ],
+              ),
             ),
           ),
         ),

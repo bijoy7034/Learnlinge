@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,11 +8,12 @@ class OneToOneChatScreen extends StatefulWidget {
   final String receiverId;
   final String receiverName;
   final String userName;
+  final String pic;
 
   const OneToOneChatScreen({
     required this.receiverId,
     required this.receiverName,
-    required this.userName,
+    required this.userName, required this.pic,
   });
 
   @override
@@ -22,10 +24,14 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
   ScrollController _scrollController = ScrollController();
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
-
+  late Stream<DocumentSnapshot> userStream;
   @override
   void initState() {
     super.initState();
+    userStream = FirebaseFirestore.instance
+        .collection('users') // Replace with your collection name
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
     getChatMessages();
   }
 
@@ -84,7 +90,33 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text(widget.receiverName, style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+        title: Row(
+          children: [
+            StreamBuilder<DocumentSnapshot>(
+              stream: userStream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+
+                if (!snapshot.hasData) {
+                  return Text('User not found.');
+                }
+
+                // Access the user profile data
+                var userProfile = snapshot.data!.data() as Map<String, dynamic>;
+                // Replace with the actual field name
+
+                return CircleAvatar(
+                  radius: 19,
+                  backgroundImage: NetworkImage(widget.pic), // Replace with the actual field name
+                );
+              },
+            ),
+            SizedBox(width: 17,),
+            Text(widget.receiverName, style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+          ],
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(

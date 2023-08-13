@@ -52,10 +52,21 @@ dependencies:
   speech_to_text: ^6.1.1
   http: ^1.1.0
   flutter_tts: ^3.7.0
+  flutter_launcher_icons: ^0.13.1
+  firebase_messaging: ^14.6.5
+  image_picker: ^1.0.2
+  firebase_storage: ^11.2.5
+  flutter_image_compress: ^2.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path: "Assets/letter-l (2) (1).png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

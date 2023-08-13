@@ -31,9 +31,19 @@ class _LoginState extends State<Login> {
       backgroundColor: Colors.black,
       body:_isLoading
           ? Center(
-        child: SpinKitFoldingCube(   // Replace SpinKitCircle with any other available spinner
-          color: Colors.amber,  // Set the color of the spinner
-          size: 100.0,          // Set the size of the spinner
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElasticIn(
+              child: SpinKitWaveSpinner(// Replace SpinKitCircle with any other available spinner
+                color: Colors.amber,  // Set the color of the spinner
+                size: 100.0,          // Set the size of the spinner
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(18)),
+            ElasticIn(child: Text('Welcome back!!', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),))
+          ],
         ),
       )
           :

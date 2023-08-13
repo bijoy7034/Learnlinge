@@ -202,7 +202,7 @@ class _ChatPageState extends State<ChatPage> {
                       Expanded(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white70,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           child: Row(

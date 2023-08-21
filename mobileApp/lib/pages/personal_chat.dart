@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:learnlign/pages/peopleProfile.dart';
 
 class OneToOneChatScreen extends StatefulWidget {
   final String receiverId;
@@ -90,32 +91,36 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Row(
-          children: [
-            StreamBuilder<DocumentSnapshot>(
-              stream: userStream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
+        title: InkWell(
+          onTap: (){
+          },
+          child: Row(
+            children: [
+              StreamBuilder<DocumentSnapshot>(
+                stream: userStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
 
-                if (!snapshot.hasData) {
-                  return Text('User not found.');
-                }
+                  if (!snapshot.hasData) {
+                    return Text('User not found.');
+                  }
 
-                // Access the user profile data
-                var userProfile = snapshot.data!.data() as Map<String, dynamic>;
-                // Replace with the actual field name
+                  // Access the user profile data
+                  var userProfile = snapshot.data!.data() as Map<String, dynamic>;
+                  // Replace with the actual field name
 
-                return CircleAvatar(
-                  radius: 19,
-                  backgroundImage: NetworkImage(widget.pic), // Replace with the actual field name
-                );
-              },
-            ),
-            SizedBox(width: 17,),
-            Text(widget.receiverName, style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
-          ],
+                  return CircleAvatar(
+                    radius: 19,
+                    backgroundImage: NetworkImage(widget.pic), // Replace with the actual field name
+                  );
+                },
+              ),
+              SizedBox(width: 17,),
+              Text(widget.receiverName, style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+            ],
+          ),
         ),
       ),
       body: Container(

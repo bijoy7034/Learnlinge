@@ -366,15 +366,18 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
           )
         ),
       ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            popUpDialog(context);
-          },
-          backgroundColor: Theme.of(context).primaryColor,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 30,
+        floatingActionButton: FadeIn(
+          delay: Duration(milliseconds: 700),
+          child: FloatingActionButton(
+            onPressed: () {
+              popUpDialog(context);
+            },
+            backgroundColor: Theme.of(context).primaryColor,
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            ),
           ),
         ),
 

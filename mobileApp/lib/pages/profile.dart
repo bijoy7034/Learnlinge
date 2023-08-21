@@ -150,17 +150,20 @@ class _ProfileState extends State<Profile> {
                               // Access the user profile data
                               var userProfile = snapshot.data!.data() as Map<String, dynamic>;
                               var fullName = userProfile['fullName']; // Replace with the actual field name
-                              var email = userProfile['email']; // Replace with the actual field name
+                              var email = userProfile['email'];
+                              var profilePicUrl =  userProfile['profilePic'];// Replace with the actual field name
 
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.amber,
-                                    radius: 50,
-                                    backgroundImage: NetworkImage(userProfile['profilePic']), // Replace with the actual field name
-                                  ),
+                                  profilePicUrl != null
+                                      ? FadeIn(
+                                        child: CircleAvatar(
+                                        backgroundImage:
+                                        NetworkImage(profilePicUrl), radius: 50,),
+                                      )
+                                      : Icon(Icons.account_circle),
                                   SizedBox(height: 10),
                                   Text(
                                     '$fullName',
@@ -236,8 +239,8 @@ class _ProfileState extends State<Profile> {
                               child: ListTile(
                                 trailing: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(Icons.settings, color: Colors.white,),
-                                title: Text('Settings', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
+                                leading: Icon(Icons.dashboard, color: Colors.white,),
+                                title: Text('My Posts', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
 
                               ),
                             ),

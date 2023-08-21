@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/cgatgpt.dart';
 import 'package:learnlign/pages/connectionHome.dart';
+import 'package:learnlign/pages/duscusionForum.dart';
 import 'package:learnlign/pages/search_page.dart';
 import 'package:learnlign/widgets/widgets.dart';
 
@@ -66,70 +67,134 @@ class _ExploreState extends State<Explore> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(height: 12,),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    padding: const EdgeInsets.only(left: 7.0, right: 7,),
+                    child:Row(
                       children: [
+                        Expanded(child: Row(
+                          children: [
+                            Expanded(
+                              child: FadeInUp(
+                                child: InkWell(
+                                  onTap: (){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) =>  DiscussionForum()),
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                        ],
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(10.0), // Set the border radius value
+                                    ),
+                                    height: 110,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.library_books, size: 30, color: Colors.redAccent,),
+                                          Text('Discussion Forum', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                              fontWeight:FontWeight.bold, fontSize: 13),)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12,),
+                            Expanded(
+                              child:FadeInUp(
+                                child: InkWell(
+                                  onTap: (){
+
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color.fromRGBO(47, 48, 48, 1),
+                                          Color.fromRGBO(47, 48, 48, 1),
+
+                                        ],
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(10.0), // Set the border radius value
+                                    ),
+                                    height: 110,
+                                    child: InkWell(
+                                      onTap: (){
+                                        nextScreen(context, AlChatBox());
+                                      },
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.menu_book_outlined, size: 35, color: Colors.orange,),
+                                            Text('Study Materials', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                                fontWeight:FontWeight.bold, fontSize: 13),)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 7.0, right: 7, top: 60),
-                  //   child: TextFormField(
-                  //     style: const TextStyle(
-                  //       color: Colors.white, // Set the desired text color
-                  //     ),
-                  //     decoration: const InputDecoration(filled: true,
-                  //         contentPadding: EdgeInsets.symmetric(vertical:0, horizontal:19),
-                  //         fillColor: Colors.black54, labelText: "Search", focusedBorder: OutlineInputBorder(
-                  //           borderSide: BorderSide(color: Color.fromRGBO(88, 101, 242, 0.9)),
-                  //         ), border: OutlineInputBorder(
-                  //           borderSide: BorderSide(color: Colors.orange),
-                  //         ), labelStyle: TextStyle(color: Colors.white60)),
-                  //     validator: (value) {
-                  //       if (value == null || value.isEmpty) {
-                  //         return 'Please enter a vale';
-                  //       }
-                  //       return null;
-                  //     },
-                  //   ),
-                  // ),
-                  const SizedBox(height: 15,),
+                  SizedBox(height: 12,),
                   Padding(
                     padding: const EdgeInsets.only(left: 7.0, right: 7,),
                     child: Row(
                       children: [
                         Expanded(
-                          child: InkWell(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SearchPage()),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Color.fromRGBO(47, 48, 48, 1),
-                                    Color.fromRGBO(47, 48, 48, 1),
-                                  ],
+                          child: FadeInUp(
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => SearchPage()),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Color.fromRGBO(47, 48, 48, 1),
+                                      Color.fromRGBO(47, 48, 48, 1),
+                                    ],
+                                  ),
+                                  borderRadius:
+                                  BorderRadius.circular(10.0), // Set the border radius value
                                 ),
-                                borderRadius:
-                                BorderRadius.circular(10.0), // Set the border radius value
-                              ),
-                              height: 130,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.groups, size: 40, color: Colors.amber,),
-                                    Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
-                                        fontWeight:FontWeight.bold, fontSize: 23 ),),
-                                    SizedBox(height: 10,)
-                                  ],
+                                height: 110,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.groups, size: 40, color: Colors.amber,),
+                                      Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
+                                          fontWeight:FontWeight.bold, fontSize: 23 ),),
+                                      SizedBox(height: 10,)
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -138,7 +203,7 @@ class _ExploreState extends State<Explore> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 12,),
                   Padding(
                     padding: const EdgeInsets.only(left: 7.0, right: 7,),
                     child:Row(
@@ -146,7 +211,7 @@ class _ExploreState extends State<Explore> {
                         Expanded(child: Row(
                           children: [
                             Expanded(
-                              child: FadeIn(
+                              child: FadeInUp(
                                 child: InkWell(
                                   onTap: (){
                                     Navigator.push(
@@ -167,7 +232,7 @@ class _ExploreState extends State<Explore> {
                                       borderRadius:
                                       BorderRadius.circular(10.0), // Set the border radius value
                                     ),
-                                    height: 130,
+                                    height: 110,
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
@@ -182,9 +247,9 @@ class _ExploreState extends State<Explore> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 15,),
+                            SizedBox(width: 12,),
                             Expanded(
-                              child: FadeIn(
+                              child: FadeInUp(
                                 child: InkWell(
                                   onTap: (){
 
@@ -203,7 +268,7 @@ class _ExploreState extends State<Explore> {
                                       borderRadius:
                                       BorderRadius.circular(10.0), // Set the border radius value
                                     ),
-                                    height: 130,
+                                    height: 110,
                                     child: InkWell(
                                       onTap: (){
                                         nextScreen(context, AlChatBox());
@@ -228,7 +293,7 @@ class _ExploreState extends State<Explore> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 55,),
+                  SizedBox(height: 35,),
                   FadeIn(
                     child: Container(
                         width: 700,

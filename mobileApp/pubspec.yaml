@@ -57,6 +57,8 @@ dependencies:
   image_picker: ^1.0.2
   firebase_storage: ^11.2.5
   flutter_image_compress: ^2.0.4
+  intl: ^0.18.1
+  introduction_screen: ^3.1.11
 
 dev_dependencies:
   flutter_test:

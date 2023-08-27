@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../service/database_services.dart';
 import '../widgets/message_tile.dart';
 import '../widgets/widgets.dart';

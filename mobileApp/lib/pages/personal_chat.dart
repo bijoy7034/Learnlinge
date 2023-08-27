@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:learnlign/pages/peopleProfile.dart';
+import 'package:path/path.dart';
+
 
 class OneToOneChatScreen extends StatefulWidget {
   final String receiverId;
@@ -54,28 +60,76 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
         .orderBy('timestamp')
         .snapshots();
   }
-
-  void sendMessage() {
-    if (messageController.text.isNotEmpty) {
+  void sendMessage(String type, String content) async {
+    if (content.isNotEmpty) {
       String chatId = widget.userName.compareTo(widget.receiverId) < 0
           ? '${widget.userName}-${widget.receiverId}'
           : '${widget.receiverId}-${widget.userName}';
 
-      Map<String, dynamic> chatMessageMap = {
-        "message": messageController.text,
-        "sender": widget.userName,
-        "timestamp": FieldValue.serverTimestamp(),
-      };
+      if (type == 'image') {
+        Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('chat_images')
+            .child(basename(content));
 
-      FirebaseFirestore.instance
-          .collection('one_to_one_chats')
-          .doc(chatId)
-          .collection('messages')
-          .add(chatMessageMap);
+        UploadTask uploadTask = storageReference.putFile(File(content));
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String imageUrl = await storageReference.getDownloadURL();
+
+        Map<String, dynamic> chatMessageMap = {
+          "message": imageUrl,
+          "sender": widget.userName,
+          "timestamp": FieldValue.serverTimestamp(),
+          "type": type,
+        };
+
+        FirebaseFirestore.instance
+            .collection('one_to_one_chats')
+            .doc(chatId)
+            .collection('messages')
+            .add(chatMessageMap);
+      } else {
+        Map<String, dynamic> chatMessageMap = {
+          "message": content,
+          "sender": widget.userName,
+          "timestamp": FieldValue.serverTimestamp(),
+          "type": type,
+        };
+
+        FirebaseFirestore.instance
+            .collection('one_to_one_chats')
+            .doc(chatId)
+            .collection('messages')
+            .add(chatMessageMap);
+      }
 
       messageController.clear();
+      scrollToBottom();
     }
   }
+
+
+  // void sendMessage() {
+  //   if (messageController.text.isNotEmpty) {
+  //     String chatId = widget.userName.compareTo(widget.receiverId) < 0
+  //         ? '${widget.userName}-${widget.receiverId}'
+  //         : '${widget.receiverId}-${widget.userName}';
+  //
+  //     Map<String, dynamic> chatMessageMap = {
+  //       "message": messageController.text,
+  //       "sender": widget.userName,
+  //       "timestamp": FieldValue.serverTimestamp(),
+  //     };
+  //
+  //     FirebaseFirestore.instance
+  //         .collection('one_to_one_chats')
+  //         .doc(chatId)
+  //         .collection('messages')
+  //         .add(chatMessageMap);
+  //
+  //     messageController.clear();
+  //   }
+  // }
 
   void scrollToBottom() {
     _scrollController.animateTo(
@@ -188,6 +242,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                       var messageData = snapshot.data.docs[index].data();
                       var sender = messageData['sender'];
                       var message = messageData['message'];
+                      var messageType = messageData['type'];
 
                       bool sentByMe = widget.userName == sender;
 
@@ -195,6 +250,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                         message: message,
                         sender: sender,
                         sentByMe: sentByMe,
+                        messageType: messageType, // Pass the messageType value
                       );
                     },
                   );
@@ -210,7 +266,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white70,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(35.0),
                       ),
                       child: Row(
@@ -230,12 +286,15 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.photo_camera),
-                            onPressed: () {},
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.attach_file),
-                            onPressed: () {},
+                            icon: Icon(Icons.attach_file_rounded),
+                            onPressed: () async {
+                              final pickedFile =
+                              await ImagePicker().pickImage(source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                String imageUrl = pickedFile.path;
+                                sendMessage('image', imageUrl);
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -244,7 +303,7 @@ class _OneToOneChatScreenState extends State<OneToOneChatScreen> {
                   const SizedBox(width: 12),
                   GestureDetector(
                     onTap: () {
-                      sendMessage();
+                      sendMessage('text', messageController.text);
                     },
                     child: Container(
                       height: 50,
@@ -275,12 +334,14 @@ class MessageTile extends StatelessWidget {
   final String message;
   final String sender;
   final bool sentByMe;
+  final String messageType;
 
   const MessageTile({
     Key? key,
     required this.message,
     required this.sender,
     required this.sentByMe,
+    required this.messageType,
   }) : super(key: key);
 
   @override
@@ -297,42 +358,38 @@ class MessageTile extends StatelessWidget {
         margin: sentByMe
             ? const EdgeInsets.only(left: 30)
             : const EdgeInsets.only(right: 30),
-        padding: const EdgeInsets.only(top: 7, bottom: 17, left: 20, right: 5),
+        padding: EdgeInsets.only(
+          top: 7,
+          bottom: sentByMe ? (messageType == 'image' ? 5 : 15) : (messageType == 'image' ? 5 : 15),
+          left: sentByMe ? (messageType == 'image' ? 0 : 15) : (messageType == 'image' ? 5 : 15),
+          right: sentByMe ?(messageType == 'image' ? 0 : 15)  : (messageType == 'image' ? 5 : 15),
+        ),
         decoration: BoxDecoration(
           borderRadius: sentByMe
-              ? const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
+              ?  BorderRadius.only(
+            topLeft: Radius.circular(messageType == 'image' ? 5 : 20),
+            topRight: Radius.circular(messageType == 'image' ? 5 : 20),
+            bottomLeft: Radius.circular(messageType == 'image' ? 5 : 20),
           )
-              : const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+              :  BorderRadius.only(
+            topLeft: Radius.circular(messageType == 'image' ? 5 : 20),
+            topRight: Radius.circular(messageType == 'image' ? 5 : 20),
+            bottomRight: Radius.circular(messageType == 'image' ? 5 : 20),
           ),
           color: sentByMe ? Colors.amber.shade300 : Colors.grey.shade800,
         ),
         child: Column(
-          crossAxisAlignment: sentByMe
-              ? CrossAxisAlignment.end
-              : CrossAxisAlignment.start,
+          crossAxisAlignment:
+          sentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 8.0),
-            //   child: Text(
-            //     sentByMe ? 'You' : sender.toUpperCase(),
-            //     textAlign: sentByMe ? TextAlign.start : TextAlign.start,
-            //     style: TextStyle(
-            //       fontSize: 13,
-            //       fontWeight: FontWeight.bold,
-            //       color: sentByMe ? Colors.amber : Colors.amber,
-            //       letterSpacing: -0.5,
-            //     ),
-            //   ),
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Text(
+            if (messageType == 'image')
+              Image.network(
+                message,
+                width: 150,
+                height: 150,
+              )
+            else
+              Text(
                 message,
                 textAlign: TextAlign.justify,
                 style: TextStyle(
@@ -342,10 +399,12 @@ class MessageTile extends StatelessWidget {
                   fontFamily: 'Quicksand',
                 ),
               ),
-            ),
           ],
         ),
       ),
     );
   }
 }
+
+
+

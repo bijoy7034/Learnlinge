@@ -182,7 +182,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                     FadeIn(
                       child: Center(
                         child: Text(
-                          'Comments',
+                          'Suggestions',
                           style: TextStyle(
                               color: Colors.amber,
                               fontWeight: FontWeight.bold,

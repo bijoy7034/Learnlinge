@@ -73,7 +73,10 @@ class _DiscussionForumState extends State<DiscussionForum> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        actions: [IconButton(onPressed: (){}, icon: Icon(Icons.filter_alt))],
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.filter_alt)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
+        ],
         title: ShaderMask(
           blendMode: BlendMode.srcIn,
           shaderCallback: (Rect bounds) {

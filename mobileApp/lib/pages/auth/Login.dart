@@ -103,7 +103,7 @@ class _LoginState extends State<Login> {
                                 ),
                                 decoration: InputDecoration(filled: true,
                                     prefixIcon: Icon(Icons.mail),
-                                    prefixIconColor: Colors.white70,
+                                    prefixIconColor: Colors.white,
 
                                     contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
                                     fillColor: Colors.grey.shade800, labelText: "Email",
@@ -253,23 +253,75 @@ class _LoginState extends State<Login> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              elevation: 0,
+              content: Stack(
+                children: [
+                  ElasticIn(
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(0xff279115)
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Login Successful!!', style: TextStyle(color: Colors.white, fontSize: 14),),
+                          SizedBox(height: 3,),
+                          Text(
+                            'Welcome Back...',
+                            style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold, fontFamily: 'Quicksand'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.transparent,
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
+            ),
+          );
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                '${value}',
-                style: const TextStyle(fontSize: 14),
+               SnackBar(
+                elevation: 0,
+                content: Stack(
+                  children: [
+                    ElasticIn(
+                      child: Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(0xffc72c41)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Oops!!', style: TextStyle(color: Colors.white, fontSize: 14),),
+                            SizedBox(height: 3,),
+                            Text(
+                              '${value}',
+                              style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold, fontFamily: 'Quicksand'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                backgroundColor: Colors.transparent,
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
               ),
-              backgroundColor: Colors.red,
-              duration: const Duration(seconds: 2),
-              action: SnackBarAction(
-                label: "OK",
-                onPressed: () {},
-                textColor: Colors.white,
-              ),
-            ),
           );
           setState(() {
             _isLoading = false;

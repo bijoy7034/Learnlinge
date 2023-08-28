@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
             scaffoldBackgroundColor: Colors.white),
         debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: _isSignedIn ? const HomePage() :const Login()
+      home: _isSignedIn ?  HomePage() :const Login()
     );
   }
 }

@@ -62,6 +62,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.2.0
   camera: ^0.10.5+3
   url_launcher: ^6.1.12
+  curved_navigation_bar: ^1.0.3
 
 dev_dependencies:
   flutter_test:

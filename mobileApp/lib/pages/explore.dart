@@ -135,7 +135,7 @@ class _ExploreState extends State<Explore> {
                                     height: 110,
                                     child: InkWell(
                                       onTap: (){
-                                        nextScreen(context, AlChatBox());
+                                        //nextScreen(context, AlChatBox());
                                       },
                                       child: Center(
                                         child: Column(
@@ -294,20 +294,20 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                   SizedBox(height: 35,),
-                  FadeIn(
+                  SlideInUp(
                     child: Container(
-                        width: 700,
+                        width: 600,
                         child: SvgPicture.asset(
                           'Assets/undraw_scrum_board_re_wk7v.svg',
                           semanticsLabel: 'My SVG Image',
-                          width: 230,
+                          width: 200,
                         ),),
                   ),
-                  FadeIn(
+                  SlideInUp(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                          child: Text('Unlocking Minds, Empowering Futures: Join Our Learning Community!' , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', color: Colors.white70),)),
+                          child: Text('Unlocking Minds, Empowering Futures' , textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', color: Colors.white70),)),
                     ),
                   ),
 

@@ -31,7 +31,6 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
   late FirebaseAuth _auth;
   late FirebaseFirestore _firestore;
   late User _currentUser;
-  List<String> _connectionUIDs = []; // List of UIDs of connected users
   List<Map<String, dynamic>> _connectedUsers = []; // List of connected user details
 
   @override
@@ -239,7 +238,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
       appBar: _isSearching ? _buildDefaultAppBar() :_buildSearchAppBar() ,
 
       drawer: Drawer(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Color.fromRGBO(27, 28, 28, 1),
         child: Column(
           children: [
             SizedBox(height: 60,),
@@ -341,8 +340,8 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                           child: Row(
                             children: [
                               Icon(Icons.notifications, size: 17,),
-                              SizedBox(width: 5,),
-                              Text('Resuests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+                              SizedBox(width: 3,),
+                              Text('Requests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
                             ],
                           ),
                         ),

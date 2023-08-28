@@ -182,7 +182,7 @@ class _ProfileState extends State<Profile> {
                           ),SizedBox(height: 20,),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade800,
+                              color: Color.fromRGBO(47, 48, 48, 1),
                               borderRadius:
                               BorderRadius.circular(20.0), // Set the border radius value
                             ),
@@ -190,7 +190,7 @@ class _ProfileState extends State<Profile> {
                             child:   Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
+                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
                                 onTap: (){
                                 //   Navigator.push(
                                 //       context as BuildContext, MaterialPageRoute(builder: (context) => MyRooms()));
@@ -206,7 +206,7 @@ class _ProfileState extends State<Profile> {
                           SizedBox(height: 20,),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade800,
+                              color:  Color.fromRGBO(47, 48, 48, 1),
                               borderRadius:
                               BorderRadius.circular(20.0), // Set the border radius value
                             ),
@@ -214,7 +214,7 @@ class _ProfileState extends State<Profile> {
                             child:   Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
+                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
                                 onTap: (){
                                   nextScreen(context, EditProfilePage());
                                 },
@@ -229,7 +229,7 @@ class _ProfileState extends State<Profile> {
                           Container(
                             decoration: BoxDecoration(
 
-                              color: Colors.grey.shade800,
+                              color: Color.fromRGBO(47, 48, 48, 1),
                               borderRadius:
                               BorderRadius.circular(20.0), // Set the border radius value
                             ),
@@ -237,7 +237,7 @@ class _ProfileState extends State<Profile> {
                             child:  const Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
+                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(Icons.dashboard, color: Colors.white,),
                                 title: Text('My Posts', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
@@ -248,7 +248,7 @@ class _ProfileState extends State<Profile> {
                           SizedBox(height: 20,),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade800,
+                              color: Color.fromRGBO(47, 48, 48, 1),
                               borderRadius:
                               BorderRadius.circular(20.0), // Set the border radius value
                             ),
@@ -262,7 +262,7 @@ class _ProfileState extends State<Profile> {
                                           builder: (context) => const Login()),
                                           (route) => false);
                                 },
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
+                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(Icons.logout, color: Colors.white,),
                                 title: Text('Logout', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),

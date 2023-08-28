@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learnlign/pages/Rooms.dart';
 import 'package:learnlign/pages/explore.dart';
 import 'package:learnlign/pages/profile.dart';
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,30 +25,20 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0.3,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
+      bottomNavigationBar: CurvedNavigationBar(
+        //color: Color.fromRGBO(31,35, 33, 1),
+        color: Color.fromRGBO(37, 38, 38, 1),
+        buttonBackgroundColor: Colors.amber.shade400,
         backgroundColor: Color.fromRGBO(27, 28, 28, 1),
-        iconSize: 30,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.amber.shade300,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups,),
-            label: 'Rooms',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore, size: 50,),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
+        height: 60.0,
         onTap: _onItemTapped,
+        items: [
+          Icon(Icons.groups, color: Colors.white,),
+          Icon(Icons.explore,color: Colors.white, size: 40,),
+          Icon(Icons.person, color: Colors.white,),
+        ],
       ),
     );
   }

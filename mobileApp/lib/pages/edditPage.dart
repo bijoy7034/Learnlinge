@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,6 +70,40 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       _uploading = false; // Uploading complete
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        content: Stack(
+          children: [
+            ElasticIn(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xff279115)
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Saved Successful!!', style: TextStyle(color: Colors.white, fontSize: 14),),
+                    SizedBox(height: 3,),
+                    Text(
+                      'Profile Details Updated',
+                      style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold, fontFamily: 'Quicksand'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 3),
+      ),
+    );
 
     Navigator.pop(context);
   }
@@ -222,15 +257,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
             ) ,
-            // TextField(
-            //   controller: descriptionController..text = _currentDescription!,
-            //   decoration: InputDecoration(labelText: 'Description'),
-            // ),
-            // SizedBox(height: 20),
-            // ElevatedButton(
-            //   onPressed: _updateProfile,
-            //   child: Text('Save Profile'),
-            // ),
           ],
         ),
       ),

@@ -160,7 +160,8 @@ class _ProfileState extends State<Profile> {
                                   profilePicUrl != null
                                       ? FadeIn(
                                         child: CircleAvatar(
-                                        backgroundImage:
+                                          backgroundColor : Colors.amber,
+                                          backgroundImage:
                                         NetworkImage(profilePicUrl), radius: 50,),
                                       )
                                       : Icon(Icons.account_circle),

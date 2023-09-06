@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class MessageTile extends StatefulWidget {
@@ -17,6 +19,34 @@ class MessageTile extends StatefulWidget {
 }
 
 class _MessageTileState extends State<MessageTile> {
+
+
+  Color getRandomColor() {
+    final List<Color> shades = [
+      Colors.green,
+      Colors.yellow,
+      Colors.blueAccent,
+      Colors.red,
+    ];
+
+    Color selectedShade = shades[Random().nextInt(shades.length)];
+    int red = selectedShade.red;
+    int green = selectedShade.green;
+    int blue = selectedShade.blue;
+
+    final int colorRange = 100; // Adjust this value to control the color range
+
+    red += Random().nextInt(colorRange) - (colorRange ~/ 2);
+    green += Random().nextInt(colorRange) - (colorRange ~/ 2);
+    blue += Random().nextInt(colorRange) - (colorRange ~/ 2);
+
+    red = red.clamp(0, 255);
+    green = green.clamp(0, 255);
+    blue = blue.clamp(0, 255);
+
+    return Color.fromARGB(255, red, green, blue);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,12 +85,12 @@ class _MessageTileState extends State<MessageTile> {
             Padding(
               padding: widget.sentByMe ? const EdgeInsets.only(right: 8.0) : const EdgeInsets.only(right: 18.0),
               child: widget.sentByMe ? SizedBox(height: 1,) :Text(
-                widget.sender.toUpperCase(),
+                widget.sender,
                 textAlign : widget.sentByMe ? TextAlign.start :TextAlign.start,
                 style:  TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color : Colors.amber,
+                    color : getRandomColor(),
                     letterSpacing: -0.5),
               )
             ),

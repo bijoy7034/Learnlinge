@@ -103,25 +103,43 @@ class _ChatPageState extends State<ChatPage> {
         ),
         backgroundColor: Colors.black,
         actions: [
-          // IconButton(
-          //     onPressed: () {
-          //       nextScreen(
-          //           context,
-          //           GroupInfo(
-          //             groupId: widget.groupId,
-          //             groupName: widget.groupName,
-          //             adminName: admin,
-          //           ));
-          //     },
-          //     icon: const Icon(Icons.info)),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.video_call, color: Colors.white),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.add_ic_call_outlined, color: Colors.white),
-          ),
+          PopupMenuButton(
+              icon: Icon(Icons.more_vert, color: Colors.white,),
+              color : Colors.grey.shade800,
+              itemBuilder: (context)=> [
+                PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.check_circle),
+                        SizedBox(width: 10,),
+                        Text('Add Tasks',
+                          style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),),
+                      ],
+                    )),
+                PopupMenuItem(
+                    onTap: (){
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.video_camera_front_outlined),
+                        SizedBox(width: 10,),
+                        Text('Meet Schedule',
+                          style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),),
+                      ],
+                    )),
+
+                PopupMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.multitrack_audio_outlined),
+                        SizedBox(width: 10,),
+                        Text('Audio Call',
+                          style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),),
+                      ],
+                    )),
+
+              ]),
+
         ],
       ),
       body: Container(

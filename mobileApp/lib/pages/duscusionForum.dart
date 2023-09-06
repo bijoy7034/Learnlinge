@@ -2,10 +2,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/widgets/widgets.dart';
-
 import '../postDetails.dart';
 
 class DiscussionForum extends StatefulWidget {
@@ -15,11 +15,14 @@ class DiscussionForum extends StatefulWidget {
   State<DiscussionForum> createState() => _DiscussionForumState();
 }
 
-class _DiscussionForumState extends State<DiscussionForum> {
+class _DiscussionForumState extends State<DiscussionForum> with SingleTickerProviderStateMixin{
   final formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _postController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
+
+  // New variables for poll options
+  List<TextEditingController> optionControllers = [];
 
   Future<String?> _getUserProfilePicUrl(String userId) async {
     final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
@@ -189,12 +192,6 @@ class _DiscussionForumState extends State<DiscussionForum> {
                               ),
 
                               Spacer(),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.more_vert,
-                                    color: Colors.white70,
-                                  ))
                             ],
                           ),
                           subtitle: Column(
@@ -243,20 +240,244 @@ class _DiscussionForumState extends State<DiscussionForum> {
         },
       ),
 
-      floatingActionButton: ElasticIn(
-        delay: Duration(milliseconds: 700),
-        child: FloatingActionButton(
+      floatingActionButton: FadeIn(
+        delay: Duration(milliseconds: 500),
+        child: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
           backgroundColor: Colors.amber,
-          onPressed: (){
-            popUpDialog(context);
-          },
-          child: Icon(
-            Icons.add
-          ),
+          overlayColor: Colors.black,
+          overlayOpacity: 0.3,
+          animationDuration: Duration(milliseconds: 500),
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.poll),
+                onTap: (){
+                  popUpDialogPoll(context);
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.image),
+
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.post_add),
+                onTap: (){
+                  popUpDialog(context);
+                }
+            )
+          ],
+
         ),
       ),
+
+      // floatingActionButton: ElasticIn(
+      //   delay: Duration(milliseconds: 700),
+      //   child: FloatingActionButton(
+      //     backgroundColor: Colors.amber,
+      //     onPressed: (){
+      //       popUpDialog(context);
+      //     },
+      //     child: Icon(
+      //       Icons.add
+      //     ),
+      //   ),
+      // ),
     );
   }
+  popUpDialogPoll(BuildContext context) {
+    showModalBottomSheet(
+        backgroundColor: Colors.grey.shade900,
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(35.0),
+          ),
+        ),
+        builder: (context) {
+          return SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.close, color: Colors.white70,),
+                          onPressed: () {
+                            // Close the popup when the close icon is pressed
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                    Text('Add Poll', style: TextStyle(color: Colors.amber.shade300, fontFamily: "Quicksand", fontWeight: FontWeight.bold, fontSize: 20),),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: TextFormField(
+                        validator: (val) {
+                          if (val!.length < 6) {
+                            return "Title must be at least 6 characters";
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: _titleController,
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          filled: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
+                          fillColor: Colors.grey.shade800,
+                          labelText: "Title",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey.shade800),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(color: Colors.amber),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.white70,
+                            fontFamily: 'Quicksand',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text('Poll Options', style: TextStyle(color: Colors.white70),),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding:  EdgeInsets.only(left: 18.0, right: 18.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: optionControllers.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == optionControllers.length) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                backgroundColor: Colors.grey.shade900
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  optionControllers.add(TextEditingController());
+                                });
+                              },
+                              child: Text("Add Option", style: TextStyle(color: Colors.amber),),
+                            );
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15,),
+                                  fillColor: Colors.grey.shade800,
+                                  labelText: "Option ${index + 1}",
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey.shade800),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(color: Colors.amber),
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    borderSide: BorderSide(color: Colors.orange),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white70,
+                                    fontFamily: 'Quicksand',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                controller: optionControllers[index],
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return "Poll option cannot be empty";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('*You can provide multiple poll options', style: TextStyle(color: Colors.white70),),
+                    ),
+                    SizedBox(height: 50,),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 300,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                // Create the poll using title and options
+                                List<String> pollOptions = [];
+                                for (var controller in optionControllers) {
+                                  pollOptions.add(controller.text);
+                                }
+                                // Now you can use _createPost or similar method to save the poll to the database
+                                //_createPoll(_titleController.text, pollOptions);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              primary: Theme.of(context).primaryColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(14.0),
+                              child: const Text("Create Poll"),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+
+  }
+
   popUpDialog(BuildContext context) {
     showModalBottomSheet(
         backgroundColor: Colors.grey.shade900,

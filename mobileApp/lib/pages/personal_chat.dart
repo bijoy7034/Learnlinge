@@ -385,8 +385,8 @@ class MessageTile extends StatelessWidget {
             if (messageType == 'image')
               Image.network(
                 message,
-                width: 150,
-                height: 150,
+                width: 210,
+                height: 210,
               )
             else
               Text(

@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'package:learnlign/pages/scanner.dart';
+import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import '../service/database_services.dart';
 import '../widgets/message_tile.dart';
 import '../widgets/widgets.dart';
@@ -112,7 +117,7 @@ class _ChatPageState extends State<ChatPage> {
                       children: [
                         Icon(Icons.check_circle),
                         SizedBox(width: 10,),
-                        Text('Add Tasks',
+                        Text('Add Events',
                           style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),),
                       ],
                     )),
@@ -199,8 +204,9 @@ class _ChatPageState extends State<ChatPage> {
                         return MessageTile(
                           message: snapshot.data.docs[index]['message'],
                           sender: snapshot.data.docs[index]['sender'],
-                          sentByMe:
-                          widget.userName == snapshot.data.docs[index]['sender'],
+                          sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
+                          messageType: snapshot.data.docs[index]['type'],
+
                         );
                       },
                     ),
@@ -238,14 +244,23 @@ class _ChatPageState extends State<ChatPage> {
                                   ),
                                 ),
                               ),
+
                               IconButton(
-                                icon: Icon(Icons.photo_camera),
-                                onPressed: () {},
+                                icon: Icon(Icons.attach_file_rounded),
+                                onPressed: () async {
+                                  final pickedFile =
+                                  await ImagePicker().pickImage(source: ImageSource.gallery);
+                                  if (pickedFile != null) {
+                                    String imageUrl = pickedFile.path;
+                                    sendMessage('image', imageUrl);
+                                  }
+                                },
                               ),
                               IconButton(
-                                icon: Icon(Icons.attach_file),
-                                onPressed: () {},
-                              ),
+                                  onPressed: (){
+                                    nextScreen(context, Scanner(userName: widget.userName, groupId: widget.groupId, groupName: widget.groupName,));
+                                  },
+                                  icon: Icon(Icons.camera_alt))
                             ],
                           ),
                         ),
@@ -253,7 +268,7 @@ class _ChatPageState extends State<ChatPage> {
                       const SizedBox(width: 12),
                       GestureDetector(
                         onTap: () {
-                          sendMessage();
+                          sendMessage('text', '');
                         },
                         child: Container(
                           height: 50,
@@ -280,21 +295,63 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+  void sendMessage(String type, String content) async {
+    if (messageController.text.isNotEmpty || content.isNotEmpty) {
+      if (type == 'image') {
+        print(content);
+        Reference storageReference = FirebaseStorage.instance
+            .ref()
+            .child('chat_images')
+            .child(basename(content));
 
-  sendMessage() {
-    if (messageController.text.isNotEmpty) {
-      Map<String, dynamic> chatMessageMap = {
-        "message": messageController.text,
-        "sender": widget.userName,
-        "time": DateTime.now().millisecondsSinceEpoch,
-      };
+        UploadTask uploadTask = storageReference.putFile(File(content));
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String imageUrl = await storageReference.getDownloadURL();
 
-      DatabaseService().sendMessage(widget.groupId, chatMessageMap);
-      setState(() {
-        messageController.clear();
-      });
+        Map<String, dynamic> chatMessageMap = {
+          "message": imageUrl,
+          "sender": widget.userName,
+          "timestamp": DateTime.now().millisecondsSinceEpoch,
+          "type": type,
+        };
+        DatabaseService().sendMessage(widget.groupId, chatMessageMap);
+            setState(() {
+              messageController.clear();
+            });
+
+      } else {
+        print(messageController.text);
+        Map<String, dynamic> chatMessageMap = {
+          "message": messageController.text,
+          "sender": widget.userName,
+          "timestamp": DateTime.now().millisecondsSinceEpoch,
+          "type": type,
+        };
+
+        DatabaseService().sendMessage(widget.groupId, chatMessageMap);
+            setState(() {
+              messageController.clear();
+            });
+      }
+      messageController.clear();
     }
   }
+
+  // sendMessage(String type, String url) {
+  //   if (messageController.text.isNotEmpty) {
+  //     Map<String, dynamic> chatMessageMap = {
+  //       "message": messageController.text,
+  //       "sender": widget.userName,
+  //       "time": DateTime.now().millisecondsSinceEpoch,
+  //       "type": type
+  //     };
+  //
+  //     DatabaseService().sendMessage(widget.groupId, chatMessageMap);
+  //     setState(() {
+  //       messageController.clear();
+  //     });
+  //   }
+  // }
 
   // Method to scroll to the bottom of the ListView
   void _scrollToBottom() {

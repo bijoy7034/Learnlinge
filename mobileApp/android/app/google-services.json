@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "380202725618-ut1kktiff4hljlputqaekj63ch1rvoae.apps.googleusercontent.com",
+          "client_id": "380202725618-5ma6lnngog4jab4pbum8ghr0vn0pbst6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.learnlign",
+            "certificate_hash": "3c2e6c0daec8d307876d2c200d3840a2c0073640"
+          }
+        },
+        {
+          "client_id": "380202725618-angc9sm164gqtjr6aifbpbldebmo0q7u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "380202725618-ut1kktiff4hljlputqaekj63ch1rvoae.apps.googleusercontent.com",
+              "client_id": "380202725618-angc9sm164gqtjr6aifbpbldebmo0q7u.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "380202725618-mqprlsv4kbfjf9a4690lp0nbps24uhoi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.learnlign"
+              }
             }
           ]
         }

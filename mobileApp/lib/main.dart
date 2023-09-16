@@ -9,14 +9,12 @@ import 'package:learnlign/pages/homePage.dart';
 import 'package:learnlign/pages/shared/constants.dart';
 import 'package:page_transition/page_transition.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseApi().initNotification();
   runApp(const Splash());
 }
-
-
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
@@ -24,25 +22,34 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          pageTransitionsTheme: PageTransitionsTheme(
-            builders: {
-              TargetPlatform.android: ZoomPageTransitionsBuilder(),
-              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-            },
+      theme: ThemeData(
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
+      ),
+      title: 'Clean Code',
+      home: AnimatedSplashScreen(
+        duration: 3000,
+        splash: Text(
+          'LEARNLINGE',
+          style: TextStyle(
+            letterSpacing: 2,
+            color: Colors.amber.shade400,
+            fontSize: 37,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        title: 'Clean Code',
-        home: AnimatedSplashScreen(
-            duration: 3000,
-            splash: Text('LEARNLINGE', style: TextStyle(letterSpacing: 2, color: Colors.amber.shade400, fontSize: 37, fontWeight: FontWeight.bold),),
-            nextScreen: MyApp(),
-            splashTransition: SplashTransition.fadeTransition,
-            pageTransitionType: PageTransitionType.fade,
-            backgroundColor: Colors.black));
+        nextScreen: MyApp(),
+        splashTransition: SplashTransition.fadeTransition,
+        pageTransitionType: PageTransitionType.fade,
+        backgroundColor: Colors.black,
+      ),
+    );
   }
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -52,33 +59,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isSignedIn = false;
+  bool _isSignedIn = false; // Change this line
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    getUserLoggedIn();
+    _checkLoginStatus(); // Change this line
   }
 
-  getUserLoggedIn() async {
-    await HelperFunctions.getUserLoggedInStatus().then((value) => {
-      if(value!=null){
-        _isSignedIn = value
-      }
-    });
+  _checkLoginStatus() async {
+    final value = await HelperFunctions.getUserLoggedInStatus();
+    if (value != null) {
+      setState(() {
+        _isSignedIn = value;
+      });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-            primaryColor: Constants().primaryColor,
-            scaffoldBackgroundColor: Colors.white),
-        debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Constants().primaryColor,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: _isSignedIn ?  HomePage() :const Login()
+      home: _isSignedIn ? HomePage() : const Login(),
     );
   }
 }
-
-

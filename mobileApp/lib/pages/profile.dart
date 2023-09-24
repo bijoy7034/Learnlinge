@@ -1,13 +1,12 @@
-
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/edditPage.dart';
 import 'package:learnlign/widgets/widgets.dart';
-
 import '../helper/helper_fuction.dart';
 import '../service/auth_services.dart';
 
@@ -191,14 +190,14 @@ class _ProfileState extends State<Profile> {
                             child:   Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
+                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 onTap: (){
                                 //   Navigator.push(
                                 //       context as BuildContext, MaterialPageRoute(builder: (context) => MyRooms()));
                                 //
                                 },
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(Icons.groups, color: Colors.white,),
+                                leading: Icon(FluentIcons.people_32_regular, color: Colors.white,),
                                 title: Text('My Rooms', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
 
                               ),
@@ -215,12 +214,12 @@ class _ProfileState extends State<Profile> {
                             child:   Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
+                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 onTap: (){
                                   nextScreen(context, EditProfilePage());
                                 },
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(Icons.edit, color: Colors.white,),
+                                leading: Icon(FluentIcons.edit_28_regular, color: Colors.white,),
                                 title: Text('Edit Profile', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
 
                               ),
@@ -238,7 +237,7 @@ class _ProfileState extends State<Profile> {
                             child:  const Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
+                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(Icons.dashboard, color: Colors.white,),
                                 title: Text('My Posts', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
@@ -263,7 +262,7 @@ class _ProfileState extends State<Profile> {
                                           builder: (context) => const Login()),
                                           (route) => false);
                                 },
-                                trailing: Icon(Icons.arrow_forward_ios, color: Colors.amber, size: 20,),
+                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(Icons.logout, color: Colors.white,),
                                 title: Text('Logout', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
@@ -280,8 +279,7 @@ class _ProfileState extends State<Profile> {
               ),
             ],
         ),
-      ),
-          ),
+      ),),
 
     );
   }

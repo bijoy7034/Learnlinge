@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "0c8368c9b3f0abbc193b9d6133649a614204b528982bebc7026372d61677ce3a"
+      sha256: "1227dc3efc4ea571eebb2dfb814506ed2cfb1d4b1b89fb918abdddde617ead3c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.7"
+    version: "3.4.0"
   args:
     dependency: transitive
     description:
@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.3"
+  custom_date_range_picker:
+    dependency: "direct main"
+    description:
+      name: custom_date_range_picker
+      sha256: e2814b22af6fd72909f23a86400eec0454417e6955314e2bfb2ffd88019ac345
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.10"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -417,6 +425,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.5"
+  fluentui_system_icons:
+    dependency: "direct main"
+    description:
+      name: fluentui_system_icons
+      sha256: e69b46f716b37ffa19dc53fc1e5bb0e26f6288264e5879fab51effaa46b5fc67
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.217"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -625,13 +641,13 @@ packages:
     source: hosted
     version: "4.0.2"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
-      sha256: a72242c9a0ffb65d03de1b7113bc4e189686fc07c7147b8b41811d0dd0e0d9bf
+      sha256: "6e703d5e2f8c63fb31a77753915c1ec8baebde8088844e0d29f71b8f0b108888"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.17"
+    version: "4.1.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -1193,10 +1209,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "781bd58a1eb16069412365c98597726cd8810ae27435f04b3b4d3a470bacd61e"
+      sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.12"
+    version: "6.1.14"
   url_launcher_android:
     dependency: transitive
     description:

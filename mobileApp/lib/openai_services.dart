@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:learnlign/secrets.dart';
 
@@ -52,8 +51,9 @@ class OpenAIService {
   Future<String> chatGPTAPI(String prompt) async {
     messages.add({
       'role': 'user',
-      'content': prompt,
+      'content': prompt + "and write the response in 2 sentences",
     });
+
     try {
       final res = await http.post(
         Uri.parse('https://api.openai.com/v1/chat/completions'),
@@ -64,6 +64,7 @@ class OpenAIService {
         body: jsonEncode({
           "model": "gpt-3.5-turbo",
           "messages": messages,
+          "max_tokens": 20,  // Limit the response to 20 tokens (adjust as needed)
         }),
       );
 
@@ -76,6 +77,7 @@ class OpenAIService {
           'role': 'assistant',
           'content': content,
         });
+
         return content;
       }
       return 'An internal error occurred';
@@ -83,6 +85,7 @@ class OpenAIService {
       return e.toString();
     }
   }
+
 
   Future<String> dallEAPI(String prompt) async {
     messages.add({

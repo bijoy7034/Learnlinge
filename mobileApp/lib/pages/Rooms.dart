@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -321,7 +322,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                         Tab(
                           child: Row(
                             children: [
-                              Icon(Icons.group, size: 17,),
+                              Icon(FluentIcons.people_12_filled, size: 23,),
                               SizedBox(width: 5,),
                               Text('Rooms', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand' , fontWeight: FontWeight.bold),),
                             ],
@@ -330,7 +331,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                         Tab(
                           child: Row(
                             children: [
-                              Icon(Icons.wechat_sharp, size: 17,),
+                              Icon(FluentIcons.chat_12_filled, size: 23,),
                               SizedBox(width: 5,),
                               Text('Chats', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
                             ],
@@ -339,7 +340,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
                         Tab(
                           child: Row(
                             children: [
-                              Icon(Icons.notifications, size: 17,),
+                              Icon(FluentIcons.branch_request_20_filled, size: 23,),
                               SizedBox(width: 3,),
                               Text('Requests', style: TextStyle(color: Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
                             ],
@@ -384,6 +385,19 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
   }
   AppBar _buildDefaultAppBar() {
     return AppBar(
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: const Icon(
+              FluentIcons.list_28_filled
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          );
+        },
+      ),
       elevation: 0,
       iconTheme: IconThemeData(
         color: Colors.white, // Set the color of the drawer icon
@@ -399,7 +413,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
         blendMode: BlendMode.srcIn,
         shaderCallback: (Rect bounds) {
           return LinearGradient(
-            colors: const [Colors.white, Colors.white70],
+            colors: const [Colors.white, Colors.white],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ).createShader(bounds);

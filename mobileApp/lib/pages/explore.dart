@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/cgatgpt.dart';
@@ -24,7 +25,7 @@ class _ExploreState extends State<Explore> {
           color: Colors.white, // Set the color of the drawer icon
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.help)),
+          IconButton(onPressed: (){}, icon: Icon(FluentIcons.question_circle_28_regular)),
           IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
 
         ],
@@ -35,7 +36,7 @@ class _ExploreState extends State<Explore> {
             blendMode: BlendMode.srcIn,
             shaderCallback: (Rect bounds) {
               return const LinearGradient(
-                colors: [Colors.white, Colors.white70],
+                colors: [Colors.white, Colors.white],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ).createShader(bounds);
@@ -101,7 +102,10 @@ class _ExploreState extends State<Explore> {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.library_books, size: 30, color: Colors.redAccent,),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(FluentIcons.book_compass_20_regular, size: 45, color: Colors.redAccent,),
+                                          ),
                                           Text('Discussion Forum', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                               fontWeight:FontWeight.bold, fontSize: 13),)
                                         ],
@@ -141,7 +145,10 @@ class _ExploreState extends State<Explore> {
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Icon(Icons.menu_book_outlined, size: 35, color: Colors.orange,),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Icon(FluentIcons.ink_stroke_arrow_up_down_20_filled, size: 35, color: Colors.orange,),
+                                            ),
                                             Text('Study Materials', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                                 fontWeight:FontWeight.bold, fontSize: 13),)
                                           ],
@@ -189,7 +196,7 @@ class _ExploreState extends State<Explore> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.groups, size: 40, color: Colors.amber,),
+                                      Icon(FluentIcons.group_24_regular, size: 47, color: Colors.amber,),
                                       Text('Rooms', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                           fontWeight:FontWeight.bold, fontSize: 23 ),),
                                       SizedBox(height: 10,)
@@ -237,7 +244,7 @@ class _ExploreState extends State<Explore> {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.connect_without_contact_sharp, size: 40, color: Colors.green,),
+                                          Icon(FluentIcons.connected_20_regular, size: 40, color: Colors.green,),
                                           Text('Connect', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                               fontWeight:FontWeight.bold, fontSize: 13),)
                                         ],
@@ -277,7 +284,7 @@ class _ExploreState extends State<Explore> {
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Icon(Icons.chat_outlined, size: 35, color: Colors.blueAccent,),
+                                            Icon(FluentIcons.chat_bubbles_question_24_regular, size: 40, color: Colors.lightBlue,),
                                             Text('AI Assistant', style: TextStyle(color: Colors.white,fontFamily: 'Quicksand',
                                                 fontWeight:FontWeight.bold, fontSize: 13),)
                                           ],

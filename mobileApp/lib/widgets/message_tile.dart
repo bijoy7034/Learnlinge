@@ -1,19 +1,24 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MessageTile extends StatelessWidget {
   final String message;
   final String sender;
   final bool sentByMe;
   final String messageType;
+  final String date;
+  final String description;
+  final String link;
 
   const MessageTile({
     Key? key,
     required this.message,
     required this.sender,
     required this.sentByMe,
-    required this.messageType,
+    required this.messageType, required this.date, required this.description, required this.link,
   }) : super(key: key);
 
   Color getRandomColor() {
@@ -47,7 +52,7 @@ class MessageTile extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(
         top: 2,
-        bottom: 2,
+        bottom: 0,
         left: sentByMe ? 0 : 24,
         right: sentByMe ? 24 : 0,
       ),
@@ -154,21 +159,83 @@ class MessageTile extends StatelessWidget {
                   ),
                 ),
               )
+              else if(messageType == 'event')
+                Column(
+                  children: [
+                    SizedBox(height: 4,),
+                    Container(
+                      color: Colors.white,
+                      width: 270,
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
+                              'Assets/undraw_personal_info_re_ur1n.svg',
+                            width: 170,
+                          ),
+                          Text(message, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: Colors.amber, fontFamily: 'Quicksand'),),
+                          Container(
+                            // width: 200,
+                            child: Divider(
+                                color: Colors.white
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      width: 270,
+                        child: Text(description, style: TextStyle(fontSize: 12, color: sentByMe? Colors.black : Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),)
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      width: 270,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(date, style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold , fontSize: 15),)
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      width: 250,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: sentByMe ?  Colors.grey.shade800 : Colors.amber, // Background color
+                          ),
+                          onPressed: (){
+                            _launchURL(link);
+                          },
+                          child: Text('Link')),
+                    )
+                  ],
+                )
             else
               Text(
                 message,
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 12,
                   color: sentByMe ? Colors.black : Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Quicksand',
                 ),
               ),
+
           ],
         ),
       ),
     );
+  }
+}
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
 

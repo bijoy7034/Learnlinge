@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -141,51 +142,57 @@ class _GroupInfoState extends State<GroupInfo> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 150,
-          child:  Column(
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.amber.shade300,
-                child: Text(
-                  widget.groupName.substring(0, 1).toUpperCase(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.white, fontSize: 29,),
+          FadeIn(
+            delay: Duration(milliseconds: 500),
+            child: SizedBox(height: 150,
+            child:  Column(
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.amber.shade300,
+                  child: Text(
+                    widget.groupName.substring(0, 1).toUpperCase(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, color: Colors.white, fontSize: 29,),
+                  ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10,),
-                  Text(
-                    "${widget.groupName}",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.white,fontFamily: 'Quicksand',),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text("Admin: ${getName(widget.adminName)}", style: TextStyle(color: Colors.white70),)
-                ],
-              )
-            ],
-          ),),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 10,),
+                    Text(
+                      "${widget.groupName}",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.white,fontFamily: 'Quicksand',),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text("Admin: ${getName(widget.adminName)}", style: TextStyle(color: Colors.white70),)
+                  ],
+                )
+              ],
+            ),
+            ),
+          ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade900,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50.0),
-                  topRight: Radius.circular(50.0),
+            child: FadeInUp(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50.0),
+                    topRight: Radius.circular(50.0),
+                  ),
                 ),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-              child: Column(
-                children: [
-                  SizedBox(height: 10,),
-                  Text('Members', style: TextStyle(fontSize: 20, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.white70),),
-                  memberList(),
-                ],
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10,),
+                    Text('Members', style: TextStyle(fontSize: 20, fontFamily: 'Quicksand', fontWeight: FontWeight.bold, color: Colors.white70),),
+                    memberList(),
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:learnlign/pages/Rooms.dart';
 import 'package:learnlign/pages/explore.dart';
@@ -35,9 +36,9 @@ class _HomePageState extends State<HomePage> {
         height: 60.0,
         onTap: _onItemTapped,
         items: [
-          Icon(Icons.groups, color: Colors.white,),
-          Icon(Icons.explore,color: Colors.white, size: 40,),
-          Icon(Icons.person, color: Colors.white,),
+          Icon(FluentIcons.people_32_regular, color: Colors.white,),
+          Icon(FluentIcons.compass_northwest_24_filled,color: Colors.white, size: 40,),
+          Icon(FluentIcons.person_circle_32_regular, color: Colors.white,),
         ],
       ),
     );

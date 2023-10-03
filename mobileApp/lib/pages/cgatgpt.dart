@@ -6,7 +6,6 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import '../openai_services.dart';
 import '../widgets/feature_box.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class AlChatBox extends StatefulWidget {
   const AlChatBox({super.key});

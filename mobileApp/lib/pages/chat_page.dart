@@ -228,21 +228,6 @@ class _ChatPageState extends State<ChatPage> {
                       _scrollToBottom();
                     });
 
-                    // return Padding(
-                    //   padding: const EdgeInsets.only(bottom: 78.0),
-                    //   child: ListView.builder(
-                    //     controller: _scrollController,
-                    //     itemCount: snapshot.data.docs.length,
-                    //     itemBuilder: (context, index) {
-                    //       return MessageTile(
-                    //         message: snapshot.data.docs[index]['message'],
-                    //         sender: snapshot.data.docs[index]['sender'],
-                    //         sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
-                    //         messageType: snapshot.data.docs[index]['type'],
-                    //       );
-                    //     },
-                    //   ),
-                    // );
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 78.0),
                       child: ListView.builder(

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/edditPage.dart';
+import 'package:learnlign/pages/myConnections.dart';
+import 'package:learnlign/pages/mypost.dart';
 import 'package:learnlign/widgets/widgets.dart';
 import '../helper/helper_fuction.dart';
 import '../service/auth_services.dart';
@@ -192,13 +194,11 @@ class _ProfileState extends State<Profile> {
                               child: ListTile(
                                 trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 onTap: (){
-                                //   Navigator.push(
-                                //       context as BuildContext, MaterialPageRoute(builder: (context) => MyRooms()));
-                                //
+                                  nextScreen(context, MyConnecctions());
                                 },
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(FluentIcons.people_32_regular, color: Colors.white,),
-                                title: Text('My Rooms', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
+                                title: Text('My Connection', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
 
                               ),
                             ),
@@ -234,9 +234,12 @@ class _ProfileState extends State<Profile> {
                               BorderRadius.circular(20.0), // Set the border radius value
                             ),
 
-                            child:  const Padding(
+                            child:   Padding(
                               padding: EdgeInsets.only(left :8.0, right: 8.0),
                               child: ListTile(
+                                onTap: (){
+                                  nextScreen(context, MyPost());
+                                },
                                 trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
                                 contentPadding: EdgeInsets.only(left: 10, right: 10),
                                 leading: Icon(Icons.dashboard, color: Colors.white,),

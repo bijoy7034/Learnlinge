@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:learnlign/pages/cgatgpt.dart';
+import 'package:learnlign/pages/chatgpt_main.dart';
 import 'package:learnlign/pages/connectionHome.dart';
 import 'package:learnlign/pages/duscusionForum.dart';
 import 'package:learnlign/pages/search_page.dart';
@@ -54,6 +55,7 @@ class _ExploreState extends State<Explore> {
       ),
       backgroundColor: Colors.black,
       body: SlideInUp(
+        duration: Duration(milliseconds: 400),
         child: Container(
           height: 800,
           decoration: BoxDecoration(
@@ -77,6 +79,7 @@ class _ExploreState extends State<Explore> {
                           children: [
                             Expanded(
                               child: FadeInUp(
+                                duration: Duration(milliseconds: 300),
                                 child: InkWell(
                                   onTap: (){
                                     Navigator.push(
@@ -118,6 +121,7 @@ class _ExploreState extends State<Explore> {
                             SizedBox(width: 12,),
                             Expanded(
                               child:FadeInUp(
+                                duration: Duration(milliseconds: 300),
                                 child: InkWell(
                                   onTap: (){
 
@@ -171,6 +175,7 @@ class _ExploreState extends State<Explore> {
                       children: [
                         Expanded(
                           child: FadeInUp(
+                            duration: Duration(milliseconds: 300),
                             child: InkWell(
                               onTap: (){
                                 Navigator.push(
@@ -219,6 +224,7 @@ class _ExploreState extends State<Explore> {
                           children: [
                             Expanded(
                               child: FadeInUp(
+                                duration: Duration(milliseconds: 300),
                                 child: InkWell(
                                   onTap: (){
                                     Navigator.push(
@@ -257,6 +263,7 @@ class _ExploreState extends State<Explore> {
                             SizedBox(width: 12,),
                             Expanded(
                               child: FadeInUp(
+                                duration: Duration(milliseconds: 300),
                                 child: InkWell(
                                   onTap: (){
 
@@ -278,7 +285,7 @@ class _ExploreState extends State<Explore> {
                                     height: 110,
                                     child: InkWell(
                                       onTap: (){
-                                        nextScreen(context, AlChatBox());
+                                        nextScreen(context, ChatScreen());
                                       },
                                       child: Center(
                                         child: Column(
@@ -302,6 +309,7 @@ class _ExploreState extends State<Explore> {
                   ),
                   SizedBox(height: 35,),
                   SlideInUp(
+                    duration: Duration(milliseconds: 300),
                     child: Container(
                         width: 600,
                         child: SvgPicture.asset(

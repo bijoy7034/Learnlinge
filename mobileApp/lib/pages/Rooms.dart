@@ -292,6 +292,7 @@ class _RoomsState extends State<Rooms> with SingleTickerProviderStateMixin {
       ),
 
       body:SlideInUp(
+        duration: Duration(milliseconds: 400),
         child: Container(
           decoration: BoxDecoration(
             color:Color.fromRGBO(27, 28, 28, 1),

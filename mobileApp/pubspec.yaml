@@ -31,10 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  chat_gpt_sdk:
+    git:
+      url: https://github.com/iampawan/Flutter-ChatGPT.git
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
   cloud_firestore: ^4.8.4
@@ -76,6 +78,8 @@ dependencies:
   custom_date_range_picker: ^1.0.10
   image: ^4.1.0
   fluentui_system_icons: ^1.1.217
+  velocity_x: ^4.1.1
+  flutter_dotenv: ^5.1.0
 
 
 dev_dependencies:

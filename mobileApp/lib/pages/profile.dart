@@ -115,6 +115,7 @@ class _ProfileState extends State<Profile> {
         ),
       )
           : SlideInUp(
+        duration: Duration(milliseconds: 400),
             child: SingleChildScrollView(
         child: Column(
             children: [

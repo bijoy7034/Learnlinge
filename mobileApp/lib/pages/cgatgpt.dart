@@ -1,22 +1,22 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:learnlign/openai_services.dart';
+import 'package:learnlign/pages/pallete.dart';
+import 'package:learnlign/widgets/feature_box.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-import '../openai_services.dart';
-import '../widgets/feature_box.dart';
 
 class AlChatBox extends StatefulWidget {
   const AlChatBox({super.key});
 
   @override
-  State<AlChatBox> createState() => _AlChatBoxState();
+  State<AlChatBox> createState() => _HomePageState();
 }
 
-class _AlChatBoxState extends State<AlChatBox> {
-
-  SpeechToText speechToText = SpeechToText();
+class _HomePageState extends State<AlChatBox> {
+  final speechToText = SpeechToText();
   final flutterTts = FlutterTts();
   String lastWords = '';
   final OpenAIService openAIService = OpenAIService();
@@ -50,7 +50,6 @@ class _AlChatBoxState extends State<AlChatBox> {
   Future<void> stopListening() async {
     await speechToText.stop();
     setState(() {});
-    print(lastWords);
   }
 
   void onSpeechResult(SpeechRecognitionResult result) {
@@ -77,28 +76,35 @@ class _AlChatBoxState extends State<AlChatBox> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text('AI Assistant', style: TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),),
+        title: Text(
+          'AI Assistant',
+          style:
+              TextStyle(fontFamily: 'Quicksand', fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Container(
-                  child:  SvgPicture.asset(
-                    'Assets/undraw_male_avatar_g98d.svg',
-                    semanticsLabel: 'My SVG Image',
-                    width: 100,
+            // virtual assistant picture
+            ZoomIn(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Container(
+                    child: SvgPicture.asset(
+                      'Assets/undraw_male_avatar_g98d.svg',
+                      semanticsLabel: 'My SVG Image',
+                      width: 100,
+                    ),
                   ),
                 ),
               ),
             ),
+            // chat bubble
             FadeInRight(
               child: Visibility(
                 // visible: generatedImageUrl == null,
                 child: Container(
-
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -139,27 +145,28 @@ class _AlChatBoxState extends State<AlChatBox> {
                   child: Image.network(generatedImageUrl!),
                 ),
               ),
-            SlideInLeft(
-              child: Visibility(
-                visible: generatedContent == null && generatedImageUrl == null,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 10, left: 22),
-                  child: const Text(
-                    'Here are a few features',
-                    style: TextStyle(
-                      fontFamily: 'Quicksand',
-                      color: Colors.white70,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
+            Center(
+              child: SlideInLeft(
+                child: Visibility(
+                  visible: generatedContent == null && generatedImageUrl == null,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(top: 10, left: 22),
+                    child: const Text(
+                      'Here are a few features',
+                      style: TextStyle(
+                        fontFamily: 'Quicksand',
+                        color: Colors.amber,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-
-            //features
+            // features list
             Visibility(
               visible: generatedContent == null && generatedImageUrl == null,
               child: Column(
@@ -194,7 +201,6 @@ class _AlChatBoxState extends State<AlChatBox> {
                 ],
               ),
             )
-
           ],
         ),
       ),
@@ -207,8 +213,7 @@ class _AlChatBoxState extends State<AlChatBox> {
                 speechToText.isNotListening) {
               await startListening();
             } else if (speechToText.isListening) {
-              final speech = await openAIService.isArtPromptAPI(lastWords );
-              print(speech);
+              final speech = await openAIService.isArtPromptAPI(lastWords);
               if (speech.contains('https')) {
                 generatedImageUrl = speech;
                 generatedContent = null;
@@ -229,6 +234,6 @@ class _AlChatBoxState extends State<AlChatBox> {
           ),
         ),
       ),
-    ) ;
+    );
   }
 }

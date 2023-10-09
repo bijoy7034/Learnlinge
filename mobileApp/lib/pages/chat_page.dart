@@ -180,6 +180,7 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
       body: FadeInUp(
+        duration: Duration(milliseconds: 400),
         child: Container(
           decoration: BoxDecoration(
             color: Color.fromRGBO(27, 28, 28, 1),
@@ -388,22 +389,6 @@ class _ChatPageState extends State<ChatPage> {
       messageController.clear();
     }
   }
-
-  // sendMessage(String type, String url) {
-  //   if (messageController.text.isNotEmpty) {
-  //     Map<String, dynamic> chatMessageMap = {
-  //       "message": messageController.text,
-  //       "sender": widget.userName,
-  //       "time": DateTime.now().millisecondsSinceEpoch,
-  //       "type": type
-  //     };
-  //
-  //     DatabaseService().sendMessage(widget.groupId, chatMessageMap);
-  //     setState(() {
-  //       messageController.clear();
-  //     });
-  //   }
-  // }
 
   // Method to scroll to the bottom of the ListView
   void _scrollToBottom() {

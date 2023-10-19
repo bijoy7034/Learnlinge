@@ -99,7 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Row(
           children: [
             Flexible(
-              // Wrap the Row with Flexible
+              // Wrap the Row with flexible
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,

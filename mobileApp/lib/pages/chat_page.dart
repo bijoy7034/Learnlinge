@@ -3,6 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:learnlign/pages/events.dart';
 import 'package:learnlign/pages/scanner.dart';
+import 'package:learnlign/pages/tasks.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -157,11 +158,14 @@ class _ChatPageState extends State<ChatPage> {
                     )),
 
                 PopupMenuItem(
+                  onTap: (){
+                    nextScreen(context, Tasks(userName: widget.userName, groupId: widget.groupId, groupName: widget.groupName,));
+                  },
                     child: Row(
                       children: [
                         Icon(Icons.multitrack_audio_outlined),
                         SizedBox(width: 10,),
-                        Text('Audio Call',
+                        Text('Add Task',
                           style: TextStyle(color: Colors.white, fontFamily: 'Quicksand'),),
                       ],
                     )),
@@ -238,25 +242,46 @@ class _ChatPageState extends State<ChatPage> {
                           final messageType = snapshot.data.docs[index]['type'];
                           if (messageType == 'event') {
                             // Render an event widget here with date, description, etc.
-                            return MessageTile(
-                              message: snapshot.data.docs[index]['message'],
-                              sender: snapshot.data.docs[index]['sender'],
-                              date: snapshot.data.docs[index]['date'],
-                              description: snapshot.data.docs[index]['description'],
-                              link: snapshot.data.docs[index]['link'],
-                              sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
-                              messageType: messageType,
+                            return Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: MessageTile(
+                                message: snapshot.data.docs[index]['message'],
+                                sender: snapshot.data.docs[index]['sender'],
+                                date: snapshot.data.docs[index]['date'],
+                                description: snapshot.data.docs[index]['description'],
+                                link: snapshot.data.docs[index]['link'],
+                                sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
+                                messageType: messageType, groupId: '', completed: [], messageId: '', completedNames: [],
+                              ),
                             );
-                          } else {
+                          }
+                          else if (messageType == 'task') {
+                            return Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: MessageTile(
+                                message: snapshot.data.docs[index]['message'],
+                                sender: snapshot.data.docs[index]['sender'],
+                                date: '',
+                                description: snapshot.data.docs[index]['description'],
+                                link: snapshot.data.docs[index]['link'],
+                                sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
+                                messageType: messageType, groupId: widget.groupId, completed: snapshot.data.docs[index]['completed'], messageId:snapshot.data.docs[index].id, completedNames: snapshot.data.docs[index]['completed'] ,
+                              ),
+                            );
+                          }
+                          else {
                             // Render a regular message tile
-                            return MessageTile(
-                              message: snapshot.data.docs[index]['message'],
-                              sender: snapshot.data.docs[index]['sender'],
-                              sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
-                              messageType: messageType,
-                              date: '',
-                              description: '',
-                              link: '',
+                            return Padding(
+                              padding: const EdgeInsets.all(1.0),
+                              child: MessageTile(
+                                message: snapshot.data.docs[index]['message'],
+                                sender: snapshot.data.docs[index]['sender'],
+                                sentByMe: widget.userName == snapshot.data.docs[index]['sender'],
+                                messageType: messageType,
+                                date: '',
+                                description: '',
+                                link: '', groupId: '', completed: [], messageId: '', completedNames: [],
+                              ),
                             );
                           }
                         },

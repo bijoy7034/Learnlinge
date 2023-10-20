@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:learnlign/pages/auth/Login.dart';
 import 'package:learnlign/pages/edditPage.dart';
-import 'package:learnlign/pages/myConnections.dart';
+import 'package:learnlign/pages/settings.dart';
 import 'package:learnlign/pages/mypost.dart';
 import 'package:learnlign/widgets/widgets.dart';
 import '../helper/helper_fuction.dart';
@@ -30,7 +30,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     userStream = FirebaseFirestore.instance
-        .collection('users') // Replace with your collection name
+        .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
     gettingUserData();
@@ -79,8 +79,9 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.dark_mode)),
+          IconButton(onPressed: (){
+            nextScreen(context, SettingsPage());
+          }, icon: Icon(Icons.settings)),
         ],
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
@@ -100,7 +101,7 @@ class _ProfileState extends State<Profile> {
               SizedBox(width: 20,),
               Text(
                   'Profile',
-                style: TextStyle(color:Color.fromRGBO(88, 101, 242, 0.9), fontFamily: 'Quicksand', fontSize: 30, fontWeight: FontWeight.bold ),
+                style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontSize: 30, fontWeight: FontWeight.bold ),
                 overflow: TextOverflow.clip,
               ),
             ],
@@ -114,168 +115,171 @@ class _ProfileState extends State<Profile> {
           size: 50.0,          // Set the size of the spinner
         ),
       )
-          : SlideInUp(
-        duration: Duration(milliseconds: 400),
+          : FadeIn(
             child: SingleChildScrollView(
         child: Column(
             children: [
               SizedBox(height: 10,),
-              Container(
-                height: 900,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(27, 28, 28, 1),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50.0),
-                    topRight: Radius.circular(50.0),
+              StreamBuilder<DocumentSnapshot>(
+                stream: userStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SpinKitDoubleBounce(
+                      color: Colors.amber,
+                    );
+                  }
+
+                  if (!snapshot.hasData) {
+                    return Text('User not found.');
+                  }
+
+                  // Access the user profile data
+                  var userProfile = snapshot.data!.data() as Map<String, dynamic>;
+                  var fullName = userProfile['fullName']; // Replace with the actual field name
+                  var email = userProfile['email'];
+                  var profilePicUrl =  userProfile['profilePic'];// Replace with the actual field name
+
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      profilePicUrl != null
+                          ? FadeIn(
+                        child: CircleAvatar(
+                          backgroundColor : Colors.amber,
+                          backgroundImage:
+                          NetworkImage(profilePicUrl), radius: 50,),
+                      )
+                          : Icon(Icons.account_circle),
+                      SizedBox(height: 10),
+                      Text(
+                        '$fullName',
+                        style: TextStyle(fontSize: 28, color: Colors.amber, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          '$email',
+                          style: TextStyle(fontSize: 15, color: Colors.white70),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              SizedBox(height: 20,),
+              FadeInUp(
+                duration: Duration(milliseconds: 400),
+                child: Container(
+                  height: 900,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(27, 28, 28, 1),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(60.0),
+                      topRight: Radius.circular(60.0),
+                    ),
                   ),
-                ),
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          StreamBuilder<DocumentSnapshot>(
-                            stream: userStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return SpinKitDoubleBounce(
-                                  color: Colors.amber,
-                                );
-                              }
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(47, 48, 48, 1),
+                                borderRadius:
+                                BorderRadius.circular(20.0), // Set the border radius value
+                              ),
 
-                              if (!snapshot.hasData) {
-                                return Text('User not found.');
-                              }
+                              child:   Padding(
+                                padding: EdgeInsets.only(left :8.0, right: 8.0),
+                                child: ListTile(
+                                  trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
+                                  onTap: (){
+                                    nextScreen(context, SettingsPage());
+                                  },
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                                  leading: Icon(FluentIcons.settings_32_regular, color: Colors.amber,),
+                                  title: Text('Settings', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
 
-                              // Access the user profile data
-                              var userProfile = snapshot.data!.data() as Map<String, dynamic>;
-                              var fullName = userProfile['fullName']; // Replace with the actual field name
-                              var email = userProfile['email'];
-                              var profilePicUrl =  userProfile['profilePic'];// Replace with the actual field name
-
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  profilePicUrl != null
-                                      ? FadeIn(
-                                        child: CircleAvatar(
-                                          backgroundColor : Colors.amber,
-                                          backgroundImage:
-                                        NetworkImage(profilePicUrl), radius: 50,),
-                                      )
-                                      : Icon(Icons.account_circle),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    '$fullName',
-                                    style: TextStyle(fontSize: 28, color: Colors.amber, fontFamily: 'Quicksand', fontWeight: FontWeight.bold),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '$email',
-                                      style: TextStyle(fontSize: 15, color: Colors.white70),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),SizedBox(height: 20,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(47, 48, 48, 1),
-                              borderRadius:
-                              BorderRadius.circular(20.0), // Set the border radius value
-                            ),
-
-                            child:   Padding(
-                              padding: EdgeInsets.only(left :8.0, right: 8.0),
-                              child: ListTile(
-                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
-                                onTap: (){
-                                  nextScreen(context, MyConnecctions());
-                                },
-                                contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(FluentIcons.people_32_regular, color: Colors.white,),
-                                title: Text('My Connection', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
-
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color:  Color.fromRGBO(47, 48, 48, 1),
-                              borderRadius:
-                              BorderRadius.circular(20.0), // Set the border radius value
-                            ),
+                            SizedBox(height: 20,),
+                            Container(
+                              decoration: BoxDecoration(
+                                color:  Color.fromRGBO(47, 48, 48, 1),
+                                borderRadius:
+                                BorderRadius.circular(20.0), // Set the border radius value
+                              ),
 
-                            child:   Padding(
-                              padding: EdgeInsets.only(left :8.0, right: 8.0),
-                              child: ListTile(
-                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
-                                onTap: (){
-                                  nextScreen(context, EditProfilePage());
-                                },
-                                contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(FluentIcons.edit_28_regular, color: Colors.white,),
-                                title: Text('Edit Profile', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
+                              child:   Padding(
+                                padding: EdgeInsets.only(left :8.0, right: 8.0),
+                                child: ListTile(
+                                  trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
+                                  onTap: (){
+                                    nextScreen(context, EditProfilePage());
+                                  },
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                                  leading: Icon(FluentIcons.edit_28_regular, color: Colors.amber,),
+                                  title: Text('Edit Profile', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold )),
 
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            decoration: BoxDecoration(
+                            SizedBox(height: 20,),
+                            Container(
+                              decoration: BoxDecoration(
 
-                              color: Color.fromRGBO(47, 48, 48, 1),
-                              borderRadius:
-                              BorderRadius.circular(20.0), // Set the border radius value
-                            ),
+                                color: Color.fromRGBO(47, 48, 48, 1),
+                                borderRadius:
+                                BorderRadius.circular(20.0), // Set the border radius value
+                              ),
 
-                            child:   Padding(
-                              padding: EdgeInsets.only(left :8.0, right: 8.0),
-                              child: ListTile(
-                                onTap: (){
-                                  nextScreen(context, MyPost());
-                                },
-                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
-                                contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(Icons.dashboard, color: Colors.white,),
-                                title: Text('My Posts', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
+                              child:   Padding(
+                                padding: EdgeInsets.only(left :8.0, right: 8.0),
+                                child: ListTile(
+                                  onTap: (){
+                                    nextScreen(context, MyPost());
+                                  },
+                                  trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                                  leading: Icon(Icons.dashboard, color: Colors.amber,),
+                                  title: Text('My Posts', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
 
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(47, 48, 48, 1),
-                              borderRadius:
-                              BorderRadius.circular(20.0), // Set the border radius value
-                            ),
-                            child:  Padding(
-                              padding: EdgeInsets.only(left :8.0, right: 8.0),
-                              child: ListTile(
-                                onTap: ()async{
-                                  await authService.signOut();
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) => const Login()),
-                                          (route) => false);
-                                },
-                                trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
-                                contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                leading: Icon(Icons.logout, color: Colors.white,),
-                                title: Text('Logout', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
+                            SizedBox(height: 20,),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(47, 48, 48, 1),
+                                borderRadius:
+                                BorderRadius.circular(20.0), // Set the border radius value
+                              ),
+                              child:  Padding(
+                                padding: EdgeInsets.only(left :8.0, right: 8.0),
+                                child: ListTile(
+                                  onTap: ()async{
+                                    await authService.signOut();
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) => const Login()),
+                                            (route) => false);
+                                  },
+                                  trailing: Icon(FluentIcons.arrow_right_28_filled, color: Colors.amber, size: 20,),
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
+                                  leading: Icon(Icons.logout, color: Colors.amber,),
+                                  title: Text('Logout', style: TextStyle(color:Colors.white, fontFamily: 'Quicksand', fontWeight: FontWeight.bold ),),
 
+                                ),
                               ),
                             ),
-                          ),
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -283,7 +287,8 @@ class _ProfileState extends State<Profile> {
               ),
             ],
         ),
-      ),),
+      ),
+          ),
 
     );
   }

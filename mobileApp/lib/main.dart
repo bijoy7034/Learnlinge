@@ -13,7 +13,7 @@ import 'package:page_transition/page_transition.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseApi().initNotification();
+  // await FirebaseApi().initNotification();
   runApp(const Splash());
 }
 

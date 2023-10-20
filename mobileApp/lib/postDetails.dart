@@ -179,16 +179,14 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                       ),
                     ),
                     SizedBox(height: 30),
-                    FadeIn(
-                      child: Center(
-                        child: Text(
-                          'Suggestions',
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Quicksand',
-                              fontSize: 20),
-                        ),
+                    Center(
+                      child: Text(
+                        'Suggestions',
+                        style: TextStyle(
+                            color: Colors.amber,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Quicksand',
+                            fontSize: 20),
                       ),
                     ),
                     SizedBox(
@@ -228,116 +226,114 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
                                 .snapshots();
                             final timestamp = comment['timestamp'];
 
-                            return FadeInUp(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(27, 28, 28, 1),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 5,
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(27, 28, 28, 1),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    ListTile(
+                                      title: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              StreamBuilder<DocumentSnapshot>(
+                                                stream: userStream2,
+                                                builder:
+                                                    (context, snapshot) {
+                                                  if (snapshot.connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return SpinKitDoubleBounce(
+                                                      color: Colors.grey,
+                                                    );
+                                                  }
+
+                                                  if (!snapshot.hasData) {
+                                                    return Text('Unknown.');
+                                                  }
+                                                  var userProfile =
+                                                  snapshot.data!.data()
+                                                  as Map<String, dynamic>;
+                                                  var fullName =
+                                                  userProfile['fullName'];
+                                                  var profilePic =
+                                                  userProfile['profilePic'];
+
+                                                  return Row(
+                                                    children: [
+                                                      profilePic != null
+                                                          ? CircleAvatar(
+                                                        backgroundImage:
+                                                        NetworkImage(
+                                                            profilePic),
+                                                        radius: 12,
+                                                      )
+                                                          : Icon(
+                                                          Icons.account_circle),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          Text(
+                                                            fullName,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .amber,
+                                                                fontFamily:
+                                                                'Quicksand',
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 3,
+                                                          ),
+                                                          Text(
+                                                            "${timestamp}",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70,
+                                                                fontSize: 8),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                      ListTile(
-                                        title: Column(
+                                      subtitle: Padding(
+                                        padding: const EdgeInsets.all(13.0),
+                                        child: Column(
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                StreamBuilder<DocumentSnapshot>(
-                                                  stream: userStream2,
-                                                  builder:
-                                                      (context, snapshot) {
-                                                    if (snapshot.connectionState ==
-                                                        ConnectionState.waiting) {
-                                                      return SpinKitDoubleBounce(
-                                                        color: Colors.grey,
-                                                      );
-                                                    }
-
-                                                    if (!snapshot.hasData) {
-                                                      return Text('Unknown.');
-                                                    }
-                                                    var userProfile =
-                                                    snapshot.data!.data()
-                                                    as Map<String, dynamic>;
-                                                    var fullName =
-                                                    userProfile['fullName'];
-                                                    var profilePic =
-                                                    userProfile['profilePic'];
-
-                                                    return Row(
-                                                      children: [
-                                                        profilePic != null
-                                                            ? CircleAvatar(
-                                                          backgroundImage:
-                                                          NetworkImage(
-                                                              profilePic),
-                                                          radius: 12,
-                                                        )
-                                                            : Icon(
-                                                            Icons.account_circle),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: [
-                                                            Text(
-                                                              fullName,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .amber,
-                                                                  fontFamily:
-                                                                  'Quicksand',
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            Text(
-                                                              "${timestamp}",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white70,
-                                                                  fontSize: 8),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                ),
-                                              ],
-                                            ),
+                                            Text(commentText ?? '',
+                                                style: TextStyle(
+                                                    color: Colors.white70)),
                                           ],
                                         ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.all(13.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Text(commentText ?? '',
-                                                  style: TextStyle(
-                                                      color: Colors.white70)),
-                                            ],
-                                          ),
-                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
@@ -351,7 +347,7 @@ class _PostDetailsPageState extends State<PostDetailsPage> {
             ),
           ),
           FadeInUp(
-            delay: Duration(milliseconds: 700),
+            delay: Duration(milliseconds: 500),
             child: Padding(
               padding: EdgeInsets.all(6),
               child: Row(
